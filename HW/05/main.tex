@@ -1,0 +1,197 @@
+\documentclass[10pt,twoside]{article}
+
+% \usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\usepackage{appendix}
+\usepackage{fontspec}
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+\raggedbottom
+\setmainfont{URW Palladio L}
+% \newfontfamily\headingfont[Path = /usr/share/fonts/opentype/bebas-neue/]{BebasNeue Regular.otf}
+% \setmainfont[Path = /usr/share/fonts/opentype/tex-gyre-pagella/]{texgyrepagella-regular.otf}
+\begin{document}
+\title{\vspace{-2em}Homework 5\vspace{-1em}}
+\author{Chris Powell}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{enumerate}[itemsep=2em,label=\Alph*.]
+\item Silverman 8.4. Prove that following divisibility tests work. 
+    \begin{enumerate}[label=(\alph*)]
+        \item The number $a$ is divisible by $4$ if and only if its last two digits are divisible by $4$.
+ 
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            \begin{proof}
+                Let $a \in \Z$. Write $a = \sum_{i=0}^{n-1}a_i 10^i$. Since $100 \equiv 0 \mod{4}$, we know $10^i \equiv 0 \mod{4}$ for $i \geq 2$. So
+                \begin{align*}
+                    \sum_{i=0}^{n-1} a_i 10^i &\equiv \left( a_0 + a_1 10 \right) \mod{4} + \sum_{i=2}^{n-1}a_i(0) \mod{4}  
+                    \\&\equiv \left(a_0  + a_1 10 \right) \mod{4} + 0 \mod{4}.
+                    \\&\equiv (a_0 + a_1 10) \mod{4}.
+                \end{align*}
+            \end{proof}
+    \end{minipage}}
+        
+        \item The number $a$ is divisible by $8$ if and only if its last three digits are divisible by $5$.
+
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            \begin{proof}
+                Let $a \in \Z$. Write $a = \sum_{i=0}^{n-1}a_i 10^i$. Since $1000 \equiv 0 \mod{8}$, we know $10^i \equiv 0 \mod{8}$ for $i \geq 3$. So
+                \begin{align*}
+                    \sum_{i=0}^{n-1} a_i 10^i \mod{8} &\equiv \sum_{i=0}^{2} a_i 10^i \mod{8} + \sum_{i=3}^{n-1}a_i(0) \mod{8}  
+                    \\&\equiv \sum_{i=0}^{2} a_i 10^i \mod{8} + 0 \mod{8}.
+                    \\&\equiv \sum_{i=0}^{2} a_i 10^i \mod{8}.
+                \end{align*}
+            \end{proof}
+    \end{minipage}}
+
+        
+        \item The number $a$ is divisible by $3$ if and only if the sum of its digits is divisible by $3$.
+
+        
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            \begin{proof}
+                Let $a \in \Z$. Write $a = \sum_{i=0}^{n-1}a_i1 0^i$. Since $10 \equiv 1 \mod{3}$, we know $10^i \equiv 1 \mod{3}$ for $i \geq 1$. So
+                \begin{align*}
+                    \sum_{i=0}^{n-1} a_i 10^i \mod{3} &\equiv \sum_{i=0}^{n-1}a_i(1) \mod{3}  
+                    \\&\equiv \sum_{i=0}^{n-1} a_i \mod{3}.
+                \end{align*}
+            \end{proof}
+    \end{minipage}}
+        
+        
+        \item The number $a$ is divisible by $9$ if and only if the sum of its digits is divisible by $9$.
+        
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            \begin{proof}
+                Let $a \in \Z$. Write $a = \sum_{i=0}^{n-1}a_i 10^i$. Since $10 \equiv 1 \mod{9}$, we know $10^i \equiv 1 \mod{9}$ for $i \geq 1$. So
+                \begin{align*}
+                    \sum_{i=0}^{n-1} a_i 10^i \mod{9} &\equiv \sum_{i=0}^{n-1}a_i(1) \mod{9}  
+                    \\&\equiv \sum_{i=0}^{n-1} a_i \mod{9}.
+                \end{align*}
+            \end{proof}
+    \end{minipage}}
+        
+        \item The number $a$ is divisible by $11$ if and only if the alternating sum of the digits of $a$ is divisible by $11$.
+
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            \begin{proof}
+                Let $a \in \Z$. Write $a = \sum_{i=0}^{n-1} a_i 10^i$. Since $10^i \equiv 1 \mod{11}$ for all $i \equiv 0 \mod{2}$ and $10^i \equiv -1 \mod{11}$ for all $i \equiv 1 \mod{2}$, we have
+                \begin{align*}
+                    \sum_{i=0}^{n-1} a_i10^i &\equiv \sum_{i \equiv_2 0}^{n-1} a_i(1)  + \sum_{i \equiv_2 1}^{n-1} a_i (-1) \mod{11}
+                    \\&\equiv \sum_{i=0}^{n-1} a_i (-1)^{i} \mod{11}.
+                \end{align*}
+            \end{proof}
+\end{minipage}} 
+    
+    \end{enumerate}
+
+
+\item Let $n \geq 0$.
+    \begin{enumerate}[label=\arabic*.]
+        \item Prove that
+            \[x^{n+1}-1 = (x-1)(x^n+x^{n-1}+ \cdots + 1).\]
+
+        
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+    \begin{proof}
+        We show by induction on $n$. Since
+            \[x^1-1 = x-1 = (x-1)(1) = (x-1)(x^0),\]
+        the equality holds for $n=0$. Suppose there exists $n \in \N_{>0}$ such that
+            \[x^{n+1}-1 = (x-1)\sum_{i=0}^n x^i.\]
+Then by multiplying both sides by $x$ and applying the distributive law, we obtain
+        \[x^{n+2} - x = \sum_{i=0}^{n+1} x^i.\] 
+    But \[x^{n+2} - x = x^{n+1}-1-(x-1),\]
+    so
+        \[x^{n+1}-1 = \sum_{i=1}^{n+1} x^i+(x-1) = (x-1) \sum_{i=0}^{n+1} x^i.\]
+    \end{proof}
+\end{minipage}}
+        
+        
+        \item Prove that
+            \[x^{n+1}-y^{n+1}=(x-y)\sum_{i=0}^n x^i y^{n-i}.\]
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+           
+    
+    \begin{proof}
+        By applying the result from part 1 to $\frac{x}{y}$, we get
+        \[\left(\frac{x}{y}\right)^{n+1} -1 = \left( \frac{x}{y} -1\right)\sum_{i=0}^n \left(\frac{x}{y}\right)^n.\]
+        Thus 
+        \begin{align*}
+            y^{n+1}\left(\left(\frac{x}{y}\right)^{n+1} -1\right) = y^{n+1}\left( \frac{x}{y} -1\right)\sum_{i=0}^n \left(\frac{x}{y}\right)^n
+            \end{align*}
+        But 
+        \[y^{n+1}\left(\left(\frac{x}{y}\right)^{n+1} -1\right) = x^{n+1}-y^{n+1},\]
+and
+        \begin{align*}
+            y^{n+1}\left( \frac{x}{y} -1\right)\sum_{i=0}^n \left(\frac{x}{y}\right)^n &= y\left( \frac{x}{y} -1\right) y^n \sum_{i=0}^n \left(\frac{x}{y}\right)^n
+            \\&= (x-y)\sum_{i=0}^n x^i y^{n-i}.
+        \end{align*}
+    \end{proof}
+\end{minipage}}
+    
+    \begin{comment}
+    \begin{proof}[\textit{Alternative Proof}]
+            Observe that
+                \begin{align*}
+                    (x-y)\sum_{i=0}^n x^i y^{n-i} &= \sum_{i=1}^{n+1}x^i y^{(n+1)-i} - \sum_{i=1}^{n+1} x^{(n+1)-i} y^i
+                    \\&=\left(\sum_{i=1}^{n}x^i y^{(n+1)-i} +x^{n+1} \right) - \left( \sum_{i=1}^{n} x^{(n+1)-i}y^i + y^{n+1}\right)    
+                    \\&=\left( x^{n+1} - y^{n+1}\right) + \left( \sum_{i=1}^n x^i y^{(n+1)-i}-\sum_{i=1}^{n} x^{(n+1)-i}y^i  \right)     
+                    \\&=x^{n+1} - y^{n+1} + \sum_{i=1}^n (x^i y^{(n+1)-i} - x^{(n+1)-i} y^i )
+                    \\&=x^{n+1} - y^{n+1} +0
+                    \\&=x^{n+1} - y^{n+1}.
+                \end{align*}
+            \end{proof}
+\end{comment}
+
+    \end{enumerate}
+
+
+\item
+
+    \begin{enumerate}[label=\arabic*.]
+        \item What day of the week is February 21, 2030?
+
+            
+            Thursday
+
+        \item Write a program which takes as input a year $n$ with $2001 \leq n \leq 2099$ and outputs the day of the week of February 21 in year $n$.
+            \vspace{1em}
+            \begin{lstlisting}
+days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+
+def feb21(n):
+    """Return day of week of Feb 21 for year 2000 < n < 2100"""
+    n = n % 100  # store last two digits of year
+    q, r = n // 12, n % 12
+    return days[(q + r + (r // 4) + 2) % 7]
+            \end{lstlisting}
+
+    \end{enumerate}
+\end{enumerate}
+
+
+
+
+
+\end{document}

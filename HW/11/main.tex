@@ -1,0 +1,244 @@
+\documentclass[10pt]{article}
+
+% \usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\usepackage{fontspec}
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+
+\raggedbottom
+\setmainfont{URW Palladio L}
+
+\begin{document}
+\title{\vspace{-2em}Homework 11\vspace{-1em}}
+\author{Chris Powell}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+\begin{enumerate}[itemsep=1em,label=\Alph*.,leftmargin=*]
+    % \setlength{\leftmargini}{.0cm}
+    \item Silverman 21.4. Finish the proof of Quadratic Reciprocity (Part II) for the other two cases: primes congruent to $1$ modulo $8$ and primes congruent to $5$ modulo $8$.
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    \begin{proof}
+                        Suppose $\eq{p}{8}=\eq{1}{8}$. Then $8 \mid p-1$. So for some $k \in \Z$,
+                        \[p-1=8k \quad \Rightarrow \quad \frac{p-1}{2} =4k.\]
+                        Thus $\#\set{2,4,\ldots,4k}= \#\set{4k+2,4k+4\ldots, 8k}=2k.$
+                        Now observe that 
+                        \begin{align*}
+                            \eq{\tlegendre{2}{p}}{p}&=\eq{ 2^{\frac{p-1}{2}} }{p} \justify{Euler's Criterion}
+                            \\&= \eq{ 2}{p}^{\frac{p-1}{2}}  
+                            \\&= \eq{-1}{p}^{\frac{p-1}{2}} \justify{"Fundamental formula", page $157$.}
+                            \\&= \eq{-1}{p}^{2k}
+                            \\&= \eq{(-1)^{2k}}{p}
+                            \\&=\eq{1}{p}.
+                        \end{align*}
+                        Now assume $\eq{p}{8}=\eq{5}{8}$. Then $8 \mid p-5$. So for some $k \in \Z$,
+                        \[p-5=8k \quad \Rightarrow \quad p-1=8k+4 \quad \Rightarrow \quad \frac{p-1}{2} =4k+2.\]
+                        Thus
+                        $\#\set{2,4,\ldots,4k+2}= \#\set{4k+4,4k+4\ldots, 8k+4}=2k+1.$
+So
+                        \begin{align*}
+                            \eq{\tlegendre{2}{p}}{p}&=\eq{ 2^{\frac{p-1}{2}} }{p} \justify{Euler's Criterion}
+                            \\&= \eq{ 2}{p}^{\frac{p-1}{2}}  
+                            \\&= \eq{-1}{p}^{\frac{p-1}{2}} \justify{"Fundamental formula", page $157$.}
+                            \\&= \eq{-1}{p}^{2k+1}
+                            \\&= \eq{(-1)^{2k+1}}{p}
+                            \\&=\eq{-1}{p}.
+                        \end{align*}
+                        Hence, $2$ is a QR $\mod{p}$ if $p \equiv 1 \mod{8}$, and $2$ is a NR if $p \equiv 5 \mod{8}$.
+                    \end{proof}
+                \end{minipage}}
+
+
+    \pagebreak
+    \item Silverman 22.7. Let $p$ be a prime satisfying $p \equiv 3 \mod{4}$ and suppose that $a$ is a quadratic residue modulo $p$.
+        \begin{enumerate}[label=(\alph*),leftmargin=*]
+            \item Show that $x^{(p+1)/4}$ is a solution to the congruence
+                \[x^2 \equiv  \mod{p}.\]
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            \begin{proof}Observe that
+                    \begin{align*}
+                        \eq{ \left(a^{\frac{p+1}{4}}\right)^2}{p} &= \eq{a^{\frac{p+1}{2}} }{p}
+                        \\&= \eq{a^{\frac{p-1}{2}+1}}{p}
+                        \\&= \eq{a^{\frac{p-1}{2}} \cdot a}{p}
+                        \\&= \eq{a^{\frac{p-1}{2}}}{p} \cdot \eq{a}{p}
+                        \\&= \eq{ \tlegendre{a}{p} }{p} \cdot \eq{a}{p} \justify{Euler's Criterion}
+                        \\&= \eq{ 1 }{p} \cdot \eq{a}{p} \justify{$a$ is a QR $\mod{p}$} 
+                        \\&= \eq{a}{p}.
+                    \end{align*}
+                Therefore, $x=a^{\frac{p+1}{4}}$ is a solution to $x^2 \equiv \mod{p}$ for all primes $p \equiv 3 \mod{4}$.    
+            \end{proof}
+                \end{minipage}}
+
+            \item Find a solution to the congruence $x^2 \equiv 7 \mod{787}$. (Your answer should be between $1$ and $786$.)
+                
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                Since $\eq{787}{4}=\eq{3}{4}$, part (a) of this exercise implies that 
+                    \[\eq{7^{\frac{787+1}{4}}}{787} = \eq{7^{144}}{787}\]
+                    is a solution. But by successive squaring (i.e., using the $\texttt{expmod(7,144,787)}$ algorithm),
+                \[\eq{7^{144}}{787}=\eq{692}{787}.\]
+                Thus $x=692$ is solution to $x^2 \equiv 7 \mod{787}$ satisying $1\leq x \leq 786$.
+                \end{minipage}}
+        \end{enumerate}
+   
+
+        \pagebreak
+    \item Silverman 22.8. Let $p$ be a prime satisfying $p \equiv 5 \mod{8}$ and suppose that $a$ is a quadratic residue modulo $p$.
+        \begin{enumerate}[label=(\alph*),leftmargin=*]
+            \item Show that one of the values 
+                \[x = a^{(p+3)/8} \quad \textnormal{or} \quad x=2a\cdot(4a)^{(p-5)/8}\]
+                is a solution to the congruence
+                \[x^2 \equiv a \mod{p}.\]
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                \begin{proof}
+                    Observe that
+                    \begin{align*}
+                        \eq{\left( a^{\frac{p+3}{8}}\right)^2 }{p} &= \eq{ a^{\frac{p+3}{4}} }{p} = \eq{ a^{\frac{p-1}{4}+1} }{p} = \eq{ a^{\frac{p-1}{4}} \cdot a }{p} = \eq{a}{p}^{\frac{p-1}{4}} \cdot \eq{a}{p}.
+                    \end{align*}
+                    Since $a$ is a QR $\mod{p}$, we know $\eq{a}{p}=\eq{b^2}{p}$ for some $b \in \Z$, thus
+                    \begin{align*}
+                        \eq{\left( a^{\frac{p+3}{8}}\right)^2}{p} =  \eq{b^2}{p}^{\frac{p-1}{4}} \cdot \eq{a}{p} = \eq{b^{\frac{p-1}{2}}}{p} \cdot \eq{a}{p}= \eq{\tlegendre{b}{p}}{p} \cdot \eq{a}{p}.
+                    \end{align*} 
+                    If $b$ is a QR $\mod{p}$, we're done as then 
+                    \[\eq{\tlegendre{b}{p}}{p} \cdot \eq{a}{p} = \eq{1}{p} \cdot \eq{a}{p}= \eq{a}{p}.\] 
+                    So suppose $b$ is not a QR $\mod{p}$. Then
+                    \begin{align*}
+                        \eq{\left(2a\cdot(4a)^{\frac{p-5}{8}} \right)^2}{p}
+                        &= \eq{4a^2 \cdot (4a)^{\frac{p-5}{4}} }{p}
+                        = \eq{4^{\frac{p-5}{4}+1} \cdot a^{\frac{p-5}{4}+1}\cdot a}{p}.  
+                    \end{align*}
+                    Simplifying further, we get
+                    \begin{align*}
+\eq{4^{\frac{p-5}{4}+1} \cdot a^{\frac{p-5}{4}+1}\cdot a}{p} = \eq{4^{\frac{p-1}{4}} \cdot a^{\frac{p-1}{4}}\cdot a}{p}
+                    =\eq{4}{p}^{\frac{p-1}{4}}\cdot \eq{a}{p}^{\frac{p-1}{4}}\cdot \eq{a}{p}. 
+                    \end{align*}
+                    But $4$ and $a$ are QR's $\mod{p}$, so we can write that last expression as 
+                    \begin{align*}
+                     \eq{2^2}{p}^{\frac{p-1}{4}}\cdot \eq{b^2}{p}^{\frac{p-1}{4}}\cdot \eq{a}{p}
+                        = \eq{2^{\frac{p-1}{2}}}{p}\cdot \eq{b^{\frac{p-1}{2}}}{p}\cdot \eq{a}{p},
+                    \end{align*}
+                and by Euler's Criterion, 
+                    \begin{align*}
+                        \eq{2^{\frac{p-1}{2}}}{p}\cdot \eq{b^{\frac{p-1}{2}}}{p}\cdot \eq{a}{p}    &= \eq{\tlegendre{2}{p}}{p}\cdot \eq{\tlegendre{b}{p}}{p}\cdot \eq{a}{p}
+                    \end{align*}
+                        Finally, as $\eq{p}{8}=\eq{5}{8}$ and $b$ is a QR $\mod{p}$, the last expression gives
+                        \begin{align*}
+                            \eq{-1}{p}\cdot \eq{-1}{p}\cdot \eq{a}{p}=\eq{(-1) \cdot (-1) \cdot a}{p}=\eq{ 1 \cdot a}{p}= \eq{a}{p}.
+                    \end{align*}
+                \end{proof}
+                \end{minipage}} 
+           
+            \pagebreak
+            \item Find a solution to the congruence $x^2 \equiv 5 \mod{541}$. (Give an answer lying between $1$ and $540$.) 
+           
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                First, note that the modulus $541$ is a prime satisfying $\eq{541}{8}=\eq{5}{8}$, so we can apply the above result. Since
+                \begin{align*}
+                    \eq{5^{\frac{541-1}{4}}}{541} &=  \eq{5^{\frac{540}{4}}}{541} = \eq{5^{135}}{541} = \eq{1}{541},
+                \end{align*}
+                    we know $x=5^{\frac{541+3}{8}}$ is a solution. But
+                    \begin{align*}
+                        \eq{5^{\frac{541+3}{8}}}{541} =\eq{5^{\frac{544}{8}}}{541}=\eq{5^{68}}{541},
+                    \end{align*}
+                    and by successive squaring, we obtain
+                    \[\eq{5^{68}}{541}=\eq{345}{541}.\]
+                    Hence, $x=345$ is solution to $x^2 \equiv 5 \mod{541}$ satisfying $1 \leq x \leq 540$.
+                \end{minipage}}
+
+            \item Find a solution to the congruence $x^2 \equiv 13 \mod{653}$. (Give an answer lying between $1$ and $652$.)
+
+
+    \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                First, note that the modulus $653$ is a prime satisfying $\eq{543}{8}=\eq{5}{8}$, so we can again apply the above result. As 
+                \begin{align*}
+                    \eq{13^{\frac{653-1}{4}}}{643} &=  \eq{13^{\frac{652}{4}}}{653} = \eq{13^{163}}{653} = \eq{-1}{653},
+                \end{align*}
+                    we know $x=(2\cdot 13)\cdot (4 \cdot 13)^{\frac{653-5}{8}}$ is a solution. But
+                    \begin{align*}
+                        \eq{(2\cdot 13)\cdot (4 \cdot 13)^{\frac{653-5}{8}}}{653}= \eq{(26)\cdot (54)^{\frac{648}{8}}}{653} = \eq{(26)\cdot (54)^{81}}{653},
+                    \end{align*}
+                    and
+                    \begin{align*}
+                        \eq{26\cdot52^{81}}{653}&=\eq{26}{653}\cdot\eq{52^{81}}{653} 
+                        \\&=\eq{26}{653}\cdot \eq{212}{653} \justify{successive squaring}
+                        \\&=\eq{26\cdot 212}{653}
+                        \\&=\eq{5512}{653}
+                        \\&=\eq{288}{653}.
+                    \end{align*}
+                    Hence, $x=288$ is solution to $x^2 \equiv 13 \mod{653}$ satisfying $1 \leq x \leq 652$.
+                \end{minipage}}
+
+
+\end{enumerate}
+ k
+  \pagebreak
+    \item Silverman 22.9. 
+            Let $p$ be a prime that is congruent to $5$ modulo $8$. Write a program to solve the congruence
+            \[x^2 \equiv a \mod{p}\]
+            using the method described in the previous exercise and successive squaring. The output should be a solution satisfying $0 \leq x <p$. Be sure to check that $a$ is a quadratic residue, and return an error message if it is not. Use your program to solve the congruences
+            \[x^2 \equiv 17 \mod{1021}, \quad x^2 \equiv 23 \mod{1021}, \quad x^2 \equiv 31 \mod{1021}.\]
+
+\begin{lstlisting}
+def expmod(a, k, m):
+    """compute a^k mod m"""
+    b = 1
+    while k:
+        if k % 2 == 1:
+            b = (b * a) % m
+        a, k = (a ** 2) % m, k // 2
+    return b
+
+def residue(n, p):
+    """Return each a ≡ b^n mod p for some integer b and modulus p; n=2,3"""
+    R = []
+    for i in range(p):
+        R += [(i**n) % p]
+    return set(R)
+
+
+def hw11(a, p):
+    """Return solution-pair to x^2=a (mod p) for prime p=5 (mod 8)"""
+    if a not in residue(2, p):
+        return str(a)+" is not a quadratic residue modulo "+str(p)+"." 
+    if expmod(a, ((p - 1) // 4), p) == 1:
+        x = expmod(a, ((p + 3) // 8), p)
+        return x, -x % p
+    else:
+        x = ((2 * a) * expmod(4 * a, ((p - 5) // 8), p)) % p
+        return x, -x % p
+\end{lstlisting}
+
+\begin{proof}
+    Since the \texttt{residue()} and \texttt{expmod()} algorithms have already been shown to terminate and return the correct output, it immediately follows that that \texttt{hw11()} algorithm must terminate. It remains to show correctness. Let $a$ and $p$ be the respective values of the python variables $\texttt{a}$ and $\texttt{p}$. Assume $p$ is prime such that $p \equiv 5 \mod{8}$. Now either $a$ is a quadratic residue modulo $p$, or it isn't. If $a$ is not, then by correctness of \texttt{residue()}, the first \texttt{if} statement will evaluate to true and the program will return an error message; otherwise, it will evaluate to false and execution proceeds. So suppose $a$ is a quadratic residue modulo $p$. Then by Exercise C, every solution to the congruence $x^2 \equiv 5 \mod{p}$ is of the form
+    \[a^{\frac{p+3}{8}} \quad \textnormal{or} \quad 2a\cdot(4a)^{(p-5)/8},\] depending on whether 
+    \[\eq{a^{\frac{p-1}{4}}}{p} = \eq{1}{p} \quad \textnormal{or} \quad \eq{a^{\frac{p-1}{4}}}{p} = \eq{-1}{p}.\]
+    But those are exactly the two remaining termination conditions, and in each case the program returns the appropriate form by correctness of \texttt{expmod()}. Hence the program returns correctly.
+\end{proof}
+
+
+    \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        $\texttt{hw11(17,1021)}$ returns $\texttt{(494,527)}$ 
+        \\$\texttt{hw11(23,1021)}$ returns $\texttt{(858,163)}$
+        \\$\texttt{hw11(31,1021)}$ returns \texttt{
+'31 is not a quadratic residue modulo 1021.'
+} 
+    \end{minipage}}
+
+\end{enumerate}
+\end{document}

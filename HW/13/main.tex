@@ -1,0 +1,262 @@
+\documentclass[10pt]{article}
+
+% \usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\usepackage{fontspec}
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+
+\raggedbottom
+\setmainfont{URW Palladio L}
+
+\begin{document}
+\title{\vspace{-2em}Homework 13\vspace{-1em}}
+\author{Chris Powell}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+\begin{enumerate}[itemsep=1em,label=\Alph*.,leftmargin=*]
+    \item Silverman 28.3.
+        \begin{enumerate}[label=(\alph*),leftmargin=*]
+            \item Compute $e_m(2)$ for each odd number $11 \leq m \leq 19$.
+            
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    As $m=11$ is prime, the Order Divisibility Property implies 
+                    \[e_{11}(2) \mid \varphi(11)=11-1=10.\]
+                    But $\set{x \in \N : x \mid 10} = \set{1,2,5,10}$. Observe that
+        \begin{align*} 
+            \eq{2^1}{11}&=\eq{2}{11}\neq \eq{1}{11} 
+            \\\eq{2^2}{11}&=\eq{4}{11} \neq \eq{1}{11}
+            \\\eq{2^5}{11}&=\eq{10}{11} \neq \eq{1}{11}
+            \\\eq{2^{10}}{11}&=\eq{1}{11}.  
+        \end{align*}
+           Hence $e_{11}(2)=10$, so $2$ is a primitve root modulo $11$.
+                \end{minipage}} 
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            
+                    As $m=13$ is prime, the Order Divisibility Property implies
+                    \[e_{13}(2)\mid\varphi(13)=13-1=12.\]
+                    But $\set{x \in \N : x \mid 12} = \set{1,2,3,4,6,12}$. Observe that
+        \begin{align*} 
+            \eq{2^1}{13}&=\eq{2}{13}\neq \eq{1}{13} 
+            \\\eq{2^2}{13}&=\eq{4}{13} \neq \eq{1}{13}
+            \\\eq{2^3}{13}&=\eq{8}{13} \neq \eq{1}{13}
+            \\\eq{2^4}{13}&=\eq{3}{13}\neq \eq{1}{13}  
+            \\\eq{2^6}{13}&=\eq{12}{13}\neq \eq{1}{13}  
+            \\\eq{2^{12}}{13}&=\eq{1}{13}.  
+        \end{align*}
+                    Hence $e_{13}(2)=\varphi(13)$, so $2$ is a primitive root modulo $13$.
+                \end{minipage}}    
+
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    Now $m=15$ is not prime as $15=3\cdot 5$. But  
+                    \[ e_{15}(2)=\frac{ e_{3}(2) e_{5}(2) }{ \gcd\left(e_{3}(2),e_{5}(2)\right)  }\]
+                    since $\gcd(3,5)=1$.
+                Observe that
+        \begin{align*} 
+            \eq{2^1}{3}&=\eq{2}{3}\neq \eq{1}{3} &  \eq{2^1}{5}&=\eq{2}{5}\neq \eq{1}{5} 
+            \\\eq{2^2}{3}&=\eq{4}{3}\neq \eq{1}{3} &\eq{2^2}{5}&=\eq{4}{5}\neq \eq{1}{5}  
+            \\\eq{2^3}{3}&=\eq{2}{3}\neq \eq{1}{3} &\eq{2^3}{5}&=\eq{3}{5}\neq \eq{1}{5}  
+            \\\eq{2^4}{3}&=\eq{1}{3} &  \eq{2^4}{5}&=\eq{1}{5} 
+        \end{align*}
+                    So $e_{3}(2)=e_{5}(2)=4$. Thus
+                    \[ e_{15}(2)=\frac{ e_{3}(2) e_{5}(2) }{ \gcd\left(e_{3}(2),e_{5}(2)\right)} = \frac{16}{4}= 4.  \]
+                \end{minipage}} 
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    As $m=17$ is prime, the Order Divisibility Property implies
+                    \[e_{17}(2)\mid\varphi(17)=17-1=16.\]
+                    But $\set{x \in \N : x \mid 16} = \set{1,2,4,8,16}$. Observe that
+        \begin{align*} 
+            \eq{2^1}{17}&=\eq{2}{17}\neq \eq{1}{17} 
+            \\\eq{2^2}{17}&=\eq{4}{17} \neq \eq{1}{17}
+            \\\eq{2^4}{17}&=\eq{16}{17}\neq \eq{1}{17}  
+            \\\eq{2^{8}}{17}&=\eq{1}{17}.  
+        \end{align*}
+                    Hence $e_{17}(2)=8$, so $2$ is not a primitve root modulo $17$.
+                \end{minipage}}
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    As $m=19$ is prime, the Order Divisibility Property implies
+                    \[e_{19}(2)\mid\varphi(19)=19-1=18.\]
+                    But $\set{x \in \N : x \mid 18} = \set{1,2,3,6,9,18}$. Observe that
+        \begin{align*} 
+            \eq{2^1}{19}&=\eq{2}{19}\neq \eq{1}{19} 
+            \\\eq{2^2}{19}&=\eq{4}{19} \neq \eq{1}{19}
+            \\\eq{2^3}{19}&=\eq{8}{19} \neq \eq{1}{19}
+            \\\eq{2^6}{19}&=\eq{16}{19}\neq \eq{1}{19}  
+            \\\eq{2^9}{19}&=\eq{18}{19}\neq \eq{1}{19}  
+            \\\eq{2^{18}}{19}&=\eq{1}{19}.  
+        \end{align*}
+                    Hence $e_{19}(2)=\varphi(19)$, so $2$ is a primitve root modulo $19$.
+                \end{minipage}}
+\pagebreak
+            \item Using the table (page. 221), find a formula for $e_{mn}(2)$ in terms of $e_m$ and $e_n$ whenever $\gcd(m,n)=1$. 
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                \begin{conjecture*}If $\gcd\left(e_{m}(2),e_{n}(2)\right)$, then
+                    \[e_{mn}(2)=\frac{ e_{m}(2) e_{n}(2) }{ \gcd\left(e_{m}(2),e_{n}(2)\right)  }.\]
+                \end{conjecture*}
+                \end{minipage}}
+
+            \item Use your conjectural formula form (b) to find the value of $e_{11227}$. (Note that $11227=103\cdot 109$).
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    Since $11227 = 103 \cdot 109$ and $\gcd(103,109)=1$, we satisfy the hypothesis of the conjecture. Note that $e_{103}(2)=51$ and $e_{109}(2)=36$. So the conjectured formula gives
+                    \[ e_{11227}(2)=\frac{ e_{103}(2) e_{109}(2) }{ \gcd\left(e_{103}(2),e_{109}(2)\right)} = \frac{1836}{3}=612.  \]
+                \end{minipage}} 
+            
+            \item Prove that your conjectural formula in (b) is true. 
+        
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    \begin{proof}
+                        Let $m,n \in \Z$ be relatively prime, and let 
+                        \[g=\gcd\left(e_{m}(2),e_{n}(2)\right).\]
+                        By definition, $e_m(2)$ and $e_n(2)$ are the least positive integers satisfying $\eq{2^{e_m(2)}}{m}= \eq{1}{m}$ and $\eq{2^{e_n(2)}}{n}= \eq{1}{n}$, respectively. Observe that 
+                        \begin{align*}
+                            \eq{2^{\frac{e_m e_n(2)}{g} }}{m} &= \eq{2^{e_m(2)}}{m}^{\frac{e_n(2)}{g} } 
+                            = \eq{1}{m}^{\frac{e_n(2)}{g} }
+                            = \eq{1}{m}.
+                        \end{align*}
+                        Similarly, $\eq{2^{\frac{e_m e_n(2)}{g} }}{n} =\eq{1}{n}$. 
+                        So $m,n \mid \big( 2^{\frac{e_m e_n(2)}{g} } - 1 \big)$.
+                        Moreover, as $\gcd(m,n)=1$, we know 
+                        \[mn \mid \big( 2^{\frac{e_m e_n(2)}{g} } - 1 \big).\]  
+                        Thus $ \eq{ 2^{\frac{e_m e_n(2)}{g} }}{mn} =\eq{1}{mn}$. But the Chinese Remainder Theorem implies that $\eq{1}{mn}$ can be written uniquely as $(\eq{1}{m},\eq{1}{n})$. The result follows.
+                    \end{proof}
+                \end{minipage}} 
+        \end{enumerate}
+\pagebreak
+    \item Silverman 28.4.
+        \begin{enumerate}[itemsep=1em,label=(\alph*),leftmargin=*]
+    \item Find all primitive roots modulo $13$. 
+    
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    Suppose $g$ is a primitive root modulo $13$. Observe that
+                    \begin{align*}
+                        e_{13}(g^k)&=\frac{e_{13}(g)}{\gcd(k,e_{13}(g))}
+                    \end{align*}
+                    holds exactly when $\gcd(k,e_{13}(g))=1$. But 
+                    \begin{align*}
+                    e_{13}(g)=\varphi(13)=13-1=12,
+                    \end{align*}
+                    and 
+                    \[\set{k \in \Z \mid 2 \leq k \leq 12,\ \gcd(k,12)=1}=\set{5,7,11}.\]
+                    Thus $g^5, g^7, g^{11}$ are primitive roots modulo $13$.
+                \end{minipage}}
+    
+    \item For each number $d$ dividing $12$, list the $a$'s with $1 \leq a < 13$ and $e_{13}(a)=d$.
+
+        \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            Let $1 \leq d< 13$ be a divisor of $12$. Then 
+            \[d \in \set{1,2,3,4,6,12}.\]
+            Let $a$ be such that $e_{13}(a)=d$. This gives the following table:
+            \vspace{1em} 
+            \begin{center}
+            \begin{tabular}{ r | l   }
+                d & a \\
+    \hline			
+  1 & 1 \\
+  2 & 12 \\
+  3 & 3 \\
+  4 & 6 \\
+  6 & 12 \\
+  12 & 2 \\
+\end{tabular}
+            \end{center}
+        \end{minipage}}
+        \end{enumerate}
+
+\pagebreak
+\item Silverman 28.5.
+        \begin{enumerate}[itemsep=1em,label=(\alph*),leftmargin=*]
+    \item If $g$ is a primitve root modulo $37$, which of the numbers $g^2,g^3, \ldots, g^8$ are primitve roots modulo $37$? 
+     
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    Suppose $g$ is a primitive root modulo $37$. Observe that
+                    \begin{align*}
+                        e_{37}(g^k)&=\frac{36}{\gcd(k,36)}
+                    \end{align*}
+                    provided $\gcd(k,36)=1$. But 
+                    \[\set{k \in \Z \mid 2 \leq k \leq 8,\ \gcd(k,36)=1}=\set{5,7}.\]
+                    Thus $g^5$ and $g^7$ are primitive roots modulo $37$.
+                \end{minipage}}
+
+    \item If $g$ is a primitive root modulo $p$, develop an easy-to-use rule for determining if $g^k$ is a primitive root modulo $p$, and prove the your rule is correct. 
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+    \begin{proposition*}If $\gcd(k,p-1)=1$, then 
+        \[e_{p}(g^k)=\frac{p-1}{\gcd(k,p-1)}.\]
+    \end{proposition*}
+    \begin{proof}                
+    Suppose $g$ is a primitive root modulo $p$. Observe that
+                    \begin{align*}
+                        e_{p}(g^k)&=\frac{e_{p}(g)}{\gcd(k,e_{p}(g))}.
+                    \end{align*}
+                    But $e_{p}(g)=\varphi(p)=p-1$.
+                    Thus,
+                    \begin{align*}
+                        e_{p}(g^k)&=\frac{p-1}{\gcd(k,p-1)}.
+                    \end{align*}
+    \end{proof}            
+    \end{minipage}}
+    
+    \item Suppose that $g$ is a primitive root modulo the prime $p=21169$. Use your rule from (b) to determine which of the numbers $g^2,g^3,\ldots,g^{20}$ are primitive roots modulo $21169$.
+\end{enumerate}
+
+\pagebreak
+\item Silverman 28.8. Let $p$ be an odd prime and let $g$ be  primitive root modulo $p$.
+        \begin{enumerate}[itemsep=1em,label=(\alph*),leftmargin=*]
+            \item Prove that $g^k$ is a quadratic residue modulo $p$ if, and only if, $k$ is even.
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    \begin{proof}Suppose otherwise there is $\ell$ such that $\eq{g^{2k+1}}{p} = \eq{a^2}{p}$. 
+                    \begin{align*}
+                        \eq{\big(g^{\frac{p-1}{2}}\big)^2}{p}=\eq{g^{p-1}}{p} = \eq{1}{p}. 
+                    \end{align*}
+                        Conversely, if $k=2m$ for some $m \in \Z$, then
+                        \[\eq{g^k}{p}=\eq{g^{2\ell}}{p}=\eq{\big(g^{\ell} \big)^{2}}{p}.\]
+                \end{proof}
+                \end{minipage}}
+
+            \item Use (a) to give a quick proof that the product of two nonresidues is a residue, and more generally that $\tlegendre{a}{p}\tlegendre{b}{p}=\tlegendre{ab}{p}$. 
+            \item Use (a) to give a quick proof of Euler's Criterion $a^\frac{p-1}{2}\equiv \tlegendre{a}{p} \mod{p}$. 
+        \end{enumerate}
+
+
+\pagebreak
+\item Silverman 28.9. Suppose that $q$ is a prime number that is congruent to $1$ modulo $4$, and suppose that the number $p=2q+1$ is also a prime number.
+    Show that $2$ is a primitive root modulo $p$. [\textit{Hint}. Euler's Criterion and Quadratic Reciprocity will be helpful.]
+
+
+\pagebreak
+\item Silverman 28.11. Write a computer program to compute $e_p(a)$, which is the smallest positive exponent $e$ such that $a^e \equiv 1 \mod{p}$. [Be sure to use the fact that if $a^e \not\equiv 1 \mod{p}$ for all $1 \leq e \leq \frac{p}{2}$, then $e_p(a)$ is automatically equal to $p-1$.]
+
+
+\pagebreak
+\item Silverman 28.14.
+        \begin{enumerate}[itemsep=1em,label=(\alph*),leftmargin=*]
+    \item For each number $2 \leq m \leq 25$, determine if there any primitive roots modulo $m$. 
+    \item Use your data from (a) to make a conjecture as to which $m$'s have primtiive roots and which ones do not. 
+    \item Prove that your conjecture in (b) is correct. 
+\end{enumerate}
+
+\end{enumerate}
+\end{document}

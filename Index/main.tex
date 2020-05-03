@@ -1,0 +1,532 @@
+\documentclass[10pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\usepackage{fontspec}
+\usepackage{sectsty}
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+\raggedbottom
+\setmainfont{URW Palladio L}
+% \newfontfamily\headingfont[Path = /usr/share/fonts/opentype/bebas-neue/]{BebasNeue Regular.otf}
+% \setmainfont[Path = /usr/share/fonts/opentype/tex-gyre-pagella/]{texgyrepagella-regular.otf}
+\begin{document}
+\title{\vspace{-2em}Definitions, Theorems, etc.\vspace{-1em}}
+\author{}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+
+\sectionfont{\fontsize{12}{15}\selectfont}
+\vspace{-4em}
+\setcounter{section}{1}
+\section{Pythagorean Triples}
+
+\begin{definition*}[\textcolor{red}{Primitive Pythagorean Triple}] A \emph{primitive Pythagorean triple} (PPT) is a triple of numbers $(a,b,c)$ such that $a$, $b$, $c$ have no common factors and satisfy
+    \[a^2+b^2=c^2.\]
+\end{definition*}
+
+\begin{theorem}[\textcolor{red}{Pythagorean Triple Theorem}] We will get every primitive Pythagorean triple of $(a,b,c)$ with $a$ odd and $b$ even using the formulas
+    \[a=st, \quad b=\frac{s^2-t^2}{2}, \quad c=\frac{s^2+t^2}{2},\]
+    where $s > t \geq 1$ are chosen to be any odd integers with no common factors.
+\end{theorem}
+
+\section{Pythagorean Triples and the Unit Circle}
+
+\begin{theorem} Every point on the circle
+    \[x^2+y^2=1\]
+    whose coordinates are rational numbers can be obtained from the formula
+    \[(x,y)=\left( \frac{1-m^2}{1+m^2},\frac{2m}{1+m^2} \right) \]
+    by substituting in rational numbers for $m$ (except for the point $(-1,0)$ which is the limiting value as $m \rightarrow \infty$).
+\end{theorem}
+
+
+\section{Sums of Higher Powers and Fermat's Last Theorem}
+
+\begin{theorem*}[\textcolor{red}{Fermat's Last Theorem}]
+No three positive integers $a$, $b$, and $c$ satisfy the equation
+    \[a^n+b^n=c^n\]
+    for all $n \geq 3$.
+\end{theorem*}
+
+\section{Divisibility and the Greatest Common Divisor}
+
+\begin{definition*}[\textcolor{red}{Greatest Common Divisor}] The \emph{greatest common divisor} of two numbers $a$ and $b$ (not both zero) is the largest number that divides them both. It is denoted by $\gcd(a,b)$.
+\end{definition*}
+
+\begin{definition*}[\textcolor{red}{Relatively Prime}] If $\gcd(a,b)=1$, then we say that $a$ and $b$ are \emph{relatively prime}.
+\end{definition*}
+
+\begin{definition*}[\textcolor{red}{Least Common Multiple}] A number $L$ is called a \emph{common multiple} of $m$ and $n$ if both $m$ and $n$ divide $L$. The smallest such $L$ is called the \emph{least common multiple of $m$ and $n$} and is denoted by $\lcm(m,n)$.
+\end{definition*}
+
+\begin{theorem*}Let $m,n \in \Z$. Then
+    \[\lcm(m,n) = \frac{mn}{\gcd(m,n)}.\]
+\end{theorem*}
+
+\begin{theorem}[\textcolor{red}{Euclidean Algorithm}] To compute the greatest common divisor of two numbers $a$ and $b$, let $r_{-1} = a$, let $r_0=b$, and compute successive quotients and remainders
+    \[r_{i-1} = q_{i+1} \cdot r_i + r_{i+1}\]
+for $i=0,1,2,\ldots$ until some remainder $r_{n+1}$ is $0$. The last nonzero remainder $r_n$ is the greast common divisor of $a$ and $b$.
+\end{theorem}
+
+
+\section{Linear Equations and the Greatest Common Divisor}
+
+\begin{theorem}[\textcolor{red}{Linear Equation Theorem}] Let $a$ and $b$ be nonzero integers,
+    and let $g=\gcd(a,b)$. Then the equation
+    \[ax+by=g\]
+    always has a solution $(x_1,y_1)$ in integers, and this solution can be found by the Euclidean algorithm. Then every solution to the equation can be obtained by substituting integers $k$ into the formula
+    \[\left( x_1 + k \cdot \frac{b}{g}, y_1-k \cdot \frac{a}{g} \right).\]
+\end{theorem}
+
+\begin{comment}
+\begin{lemma*} Let $a,b,c \in \Z$. If $\gcd(a,b,c)=1$, then $\gcd(\gcd(a,b),c)=1$.
+\end{lemma*}
+
+\begin{theorem*} Let $a,b,c \in \Z$. Then the equation
+    \[ax+by+cz=1\]
+    has solutions $(x,y,z) \in \Z^3$ if, and only if, $\gcd(a,b,c)=1$.
+\end{theorem*}
+\end{comment}
+
+\section{Factorization and the Fundamental Theorem of Arithmetic}
+
+\begin{definition*}[\textcolor{red}{Prime}] A \emph{prime} integer is an integer $p \geq 2$ whose only (positive) divisors are $1$ and $p$.
+\end{definition*}
+
+
+\begin{definition*}[\textcolor{red}{Composite}] Integers $m \geq 2$ that are not primes are called \emph{composite} numbers.
+\end{definition*}
+
+\begin{comment}
+\begin{lemma} Let $p$ be a prime number, and suppose that $p$ divides the product $ab$. Then either $p$ divides $a$ or $p$ divides $b$ (or $p$ divides both $a$ and $b$).
+\end{lemma}
+\end{comment}
+
+\setcounter{theorem}{1}
+\begin{theorem}[\textcolor{red}{Prime Divisibility Property}] Let $p$ be a prime number, and suppose that $p$ divides the product $a_1a_2 \cdots a_r$. Then $p$ divides at least one of the factors $a_1,a_2,\ldots,a_r$.
+\end{theorem}
+
+\begin{theorem}[\textcolor{red}{The Fundamental Theorem of Arithmetic}] Every integer $n \geq 2$ can be factored in a product of primes
+    \[n = p_1p_2 \cdots p_r\]
+    in exactly one way (up to rearrangement).
+\end{theorem}
+
+\section{Congruences}
+
+\begin{definition*}[\textcolor{red}{Congruence}] An integer $a$ is \emph{congruent} to $b$ modulo $m$, and we write
+    \[a \equiv b \mod{m},\]
+    if $m$ divides $a-b$.
+\end{definition*}
+
+
+\begin{proposition*} $\equiv$ is an equivalence relation.
+\end{proposition*}
+
+
+\begin{proposition*} Let $a,b,c,d \in \Z$. Assume $a \equiv b \mod{m}$ and $c \equiv d \mod{m}$. Then 
+    \begin{enumerate}[label=(\roman*)]
+        \item $a+c \equiv b + d \mod{m}$
+        \item $ac \equiv bd \mod{m}$.
+    \end{enumerate}
+\end{proposition*}
+
+
+\begin{theorem}[\textcolor{red}{Linear Congruence Theorem}] Let $a$, $c$ and $m$ be integers with $m \geq 1$, and let $g= \gcd(a,m)$.
+    \begin{enumerate}[label=(\alph*)]
+        \item If $g \nmid c$, then the congruence $ax \equiv c \mod{m}$ has no solutions.
+        \item If $g \mid c$, then the congruence $ax \equiv c \mod{m}$ has exactly $g$ incongruent solutions. To find the solutions, first find a solution $(u_0,v_0)$ to the linear equation
+            \[au+mv=g\]
+    Then $x_0=cu_0/g$ is a solution to $ax \equiv c \mod {m}$, and a complete set of incongruent solutions is given by 
+            \[x \equiv x_0 + k \cdot \frac{m}{g} \mod{m} \quad \textnormal{for $k = 0,1,\ldots,g-1$}.\]
+    \end{enumerate}
+\end{theorem}
+
+
+\begin{theorem}[\textcolor{red}{Polynomial Roots modulo $p$ Theorem}] Let $p$ be a prime number and let 
+    \[f(x) = a_0d^d+a_1 d^{d-1} + \cdots + a_d\]
+    be a polynomial of degree $d \geq 1$ with integer coefficients and with $p \nmid a_0$. Then the congruence
+    \[f(x) \equiv 0 \mod{p}\]
+    has at most $d$ incongruent solutions.
+\end{theorem}
+
+
+\section{Congruences, Powers, and Fermat's Little Theorem}
+
+\begin{theorem}[\textcolor{red}{Fermat's Little Theorem}] Let $p$ be a prime number, and let $a$ be any number with $a \not\equiv 0 \mod{p}$. Then
+    \[a^{p-1} \equiv 1 \mod{p}.\]
+\end{theorem}
+
+\begin{comment}
+\setcounter{lemma}{1}
+\begin{lemma}Let $p$ be a prime number and let $a$ be a number with $a \neq 0\mod{p}$. Then the numbers
+    \[a,2a,3a,\ldots,(p-1)a \mod{p}\]
+    are the same as the numbers
+    \[1,2,3,\ldots,(p-1) \mod{p},\]
+    although they may be in a different order.
+\end{lemma}
+\end{comment}
+
+\section{Congruences, Powers, and Euler's Formula}
+
+\begin{definition*}[\textcolor{red}{Euler Phi Function}]\emph{Euler's phi function} is the is the function $\varphi(m):\N \to \N$ defined by
+    \[\varphi(m)=\# \set{a : 1 \leq a \leq m \ \textnormal{and} \ \gcd(a,m)=1}.\]
+\end{definition*}
+
+\begin{theorem}[\textcolor{red}{Euler's Formula}] If $\gcd(a,m)=1$, then
+    \[a^{\varphi(m)}=1 \mod{m}.\]
+\end{theorem}
+
+\begin{comment}
+\setcounter{lemma}{1}
+\begin{lemma} If $\gcd(a,m)=1$, then the numbers
+    \[b_1a,b_2a,b_3a,\ldots,b_{\varphi(m)}a \mod{m}\]
+    are the same as the numbers
+    \[b_1,b_2,b_3,\ldots,b_{\varphi(m)} \mod{m}\]
+    although they may be in a different order.
+\end{lemma}
+\end{comment}
+
+\section{Euler's Phi Function and the Chinese Remainder Theorem}
+
+
+\begin{theorem}[\textcolor{red}{Phi Function Formulas}]
+    \begin{enumerate}[label=(\alph*)]
+        \item If $p$ is prime and $k \geq 1$, then
+            \[\varphi\left(p^k \right)=p^k - p^{k-1}.\]
+        \item If $\gcd(m,n)=1$, then $\varphi(mn)=\varphi(m)\varphi(n)$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{corollary*}
+    Let $m$ be a positive integer and suppose $p_1,\ldots,p_r$ are the distinct primes that divide $m$. Then
+    \[\varphi(m) = m \prod_{i=1}^{r}\left( 1 - \frac{1}{p_i}\right).\]
+\end{corollary*}
+
+\begin{comment}
+\begin{theorem}[Chinese Remainder Theorem]
+Let $m$ and $n$ be integers satisfying $\gcd(m,n)=1$, and let $b$ and $c$ be any integers. Then the simultaneous congruences
+    \[x \equiv b \mod{m} \quad \textnormal{and} \quad x \equiv c \mod{n}\]
+have exactly one solution with $0 \leq x < mn$.
+\end{theorem}
+
+\begin{theorem*}[Chinese Remainder Theorem]
+    (Version 2) Let $m,n$ be integers satisfying $\gcd(m,n)=1$, and let $b$ and $c$ be any integers. Then there is a unique $x \in \Z_{mn}$ such that
+    \[x \equiv b \mod{m} \quad \textnormal{and} \quad x \equiv c \mod{n}.\]
+\end{theorem*}
+\end{comment}
+
+\begin{theorem*}[\textcolor{red}{Generalized Chinese Remainder Theorem}]
+Let $m_1,\ldots,m_n \in \Z$ such that $\gcd(m_i,m_j)=1$ for all $1 \leq i,j \leq n$ with $i \neq j$. Let $a_1,\ldots,a_n \in \Z$. Then the system of congruences
+    \begin{align*}
+        x &\equiv a_1 \mod{m_1}
+    \\  x &\equiv a_2 \mod{m_2}
+        \\&\vdots
+    \\  x &\equiv a_n \mod{m_n}
+\end{align*}
+    has a unique solution modulo $M=\prod_{i=1}^n m_i$, given by 
+    \[x \equiv \sum_{i=1}^n a_i \left(\frac{M}{m_i} \right) y_i,\]
+    where $y_i \equiv \left(\frac{M}{m_i}\right)^{-1} \mod{m_i}$ for all $1 \leq i \leq n$.
+\end{theorem*}
+
+\section{Prime Numbers}
+
+\begin{theorem}[\textcolor{red}{Infinitude of Primes}]
+There are infinitely many prime numbers.
+\end{theorem}
+
+\begin{comment}
+\begin{theorem}[Infinitude of Primes $3 \mod{4}$]
+    There are infinitely many primes that are congruent to $3$ modulo $4$.
+\end{theorem}
+\end{comment}
+
+\begin{theorem}[\textcolor{red}{Dirichlet's Theorem on Primes in Arithmetic Progression}]
+    Let $a$ and $m$ be integers with $\gcd(a,m)=1$. Then there are infinitely primes that are congruent to $a$ modulo $m$. That is, there are infinitely many prime numbers $p$ satisfying
+    \[p \equiv a \mod{m}.\]
+\end{theorem}
+
+\begin{comment}
+\section{Counting Primes}
+
+\begin{theorem}[The Prime Number Theorem]
+    When $x$ is large, the number of primes less than $x$ is approximately equal to $x/\ln(x)$. In other words,
+    \[\lim_{x \to \infty} \frac{\pi(x)}{x/\ln(x)}=1.\]
+\end{theorem}
+
+\setcounter{conjecture}{1}
+\begin{conjecture}[Goldbach's Conjecture]
+    Every even number $n \geq 4$ is a sum of two primes.
+\end{conjecture}
+
+\begin{conjecture}[Twin Primes Conjecture]
+There are infinitely many prime numbers $p$ such that $p+2$ is also prime.
+\end{conjecture}
+\end{comment}
+
+\setcounter{section}{15}
+\section{Powers Modulo $m$ and Successive Squaring}
+
+\begin{algorithm}[\textcolor{red}{Successive Squaring to Compute $a^k$ modulo $m$}]
+    The following steps compute the value of $a^k \mod{m}$:
+    \begin{enumerate}
+        \item Write $k$ as a sum of powers of $2$.
+            \[k=u_0+u_1\cdot 2 +u_2 \cdot 4 + u_3 \cdot 8 + \cdots + u_r \cdot 2^r,\]
+            where each $u_i$ is either $0$ or $1$. (This is called the binary expansion of $k$.)
+        \item Make a table of powers of $a$ modulo $m$ using successive squaring.
+            \begin{center} 
+            {\renewcommand{\arraystretch}{1.0}
+                \begin{tabular}{ c c c c }
+            \hline
+                    \\
+                $a^1$ &             &                   & $\equiv A_0 \mod{m}$ \\
+                $a^2$ & $\equiv(a^1)^2$   & $\equiv A_0^2$    & $\equiv A_1 \mod{m}$ \\
+                $a^4$ & $\equiv(a^2)^2$   & $\equiv A_1^2$    & $\equiv A_2 \mod{m}$ \\
+                $a^8$ & $\equiv(a^4)^2$   & $\equiv A_2^2$    & $\equiv A_3 \mod{m}$ \\
+                        & $\vdots$        &                   & $\vdots$ \\
+                $a^{2r}$ & $\equiv \left(a^{2^{r-1}} \right)^2$   & $\equiv A_{r-1}^2$    & $\equiv A_r \mod{m}$ \\
+\\
+                \hline
+                \end{tabular}}
+            \end{center}
+        \item The product
+            \[A_0^{u_0}\cdot A_1^{u_1} \cdot A_2^{u_2} \cdots A_r^{u_R} \mod{m}\]
+            will be congruent to $a^k \mod{m}$. Note that all the $u_i$'s are either $0$ or $1$, so this number is really the product of those $A_i$'s for which $u_i$ equals $1$.
+    \end{enumerate}
+\end{algorithm}
+
+\section{Computing $k$\textsuperscript{th} Roots Modulo $m$}
+
+\begin{comment}
+\begin{theorem*}[\textcolor{red}{$k$\textsuperscript{th} Roots Modulo $m$}]
+Let $b$, $k$, and $m$ be integers. Suppose $\gcd(b,m)=1$ and $\gcd(k, \varphi(m))=1$.    Assume $ku \equiv 1 \mod{\varphi(m)}$.
+If $x^k \equiv b \mod{m}$, then $x \equiv b^u \mod{m}$.
+\end{theorem*}
+\end{comment}
+
+\begin{algorithm}[\textcolor{red}{How to Compute $k$\textsuperscript{th} Roots modulo $m$}]
+Let $b$, $k$, and $m$ be given integers that satisfy
+    \[\gcd(b,m)=1 \quad \textnormal{and} \quad \gcd(k, \varphi(m))=1.\]
+    The following steps give a solution to the congruence
+    \[x^k \equiv b \mod{m}.\]
+    \begin{enumerate}
+        \item Compute $\varphi(m)$.
+        \item Find positive integers $u$ and $v$ that satisfy $ku-\varphi(m)v=1$.
+        \item Compute $b^u \mod{m}$ by successive squaring. The value obtained gives the solution $x$
+    \end{enumerate}
+\end{algorithm}
+
+\section{Powers, Roots, and "Unbreakable" Codes}
+
+\setcounter{section}{19}
+\section{Squares Modulo $p$}
+
+\begin{definition*}[\textcolor{red}{Quadratic Residue modulo $p$}]
+    A nonzero number that is congruent to a square modulo a prime $p$ is called a \textit{quadratic residue modulo $p$}; otherwise, it is called a \textit{nonresidue modulo $p$}.
+\end{definition*}
+
+\begin{theorem}Let $p$ be an odd prime. Then there are exactly $(p-1)/2$ quadratic residues modulo $p$ and exactly $(p-1)/2$ nonresidues modulo $p$.
+\end{theorem}
+
+\begin{comment}
+\begin{theorem}[Quadratic Residue Multiplication Rule] 
+(Version 1) Let $p$ be an odd prime. Then:
+    \begin{enumerate}[label=(\roman*)]
+        \item The product of two quadratic residues modulo $p$ is a quadratic residue.
+        \item The product of a quadratic residue and a nonresidue is a non residue.
+        \item The product of two non residues is a quadratic residue.
+    \end{enumerate}
+These three rules can be summarized symbolically by the formulas
+    \[QR \times QR = QR, \quad QR \times NR = NR, \quad NR \times NR = QR.\]
+\end{theorem}
+\end{comment}
+
+\begin{definition*}[\textcolor{red}{Legendre Symbol of $a$ modulo $p$}]
+    The \emph{Legendre symbol of $a$ modulo $p$} is
+    \[\legendre{a}{p} = \begin{array}{cc}  
+        \begin{cases}
+        1 & \textnormal{if $a$ is a quadratic residue modulo $p$} \\
+        -1 & \textnormal{if $a$ is a nonresidue modulo $p$.}
+    \end{cases}
+\end{array}\]
+\end{definition*}
+
+\begin{theorem}[\textcolor{red}{Quadratic Residue Multiplication Rule}]
+    Let $p$ be an odd prime. Then
+    \[\legendre{a}{p}\legendre{b}{p}=\legendre{ab}{p}.\] 
+\end{theorem}
+
+\section{Is $-1$ a Square Modulo $p$}
+
+\begin{theorem}[\textcolor{red}{Euler's Criterion}]
+    Let $p$ be an odd prime. Then
+    \[a^{(p-1)/2} \equiv \legendre{a}{p} \mod{p}.\]
+\end{theorem}
+
+\begin{comment}
+\begin{theorem}[Quadratic Reciprocity]
+    (Part I) Let $p$ be an odd prime. Then
+    \begin{align*}
+        -1 \ \textnormal{is a quadratic residue modulo $p$} \  & \textnormal{if $p\equiv 1 \mod{4}$, and} 
+        \\ -1 \ \textnormal{is a nonresidue modulo $p$} \ & \textnormal{if $p \equiv 3 \mod{4}$.}
+    \end{align*}
+\end{theorem}
+
+\begin{theorem}[Primes $1 \mod{4}$ Theorem]
+There are infinitely many primes congruent to $1$ modulo $4$.
+\end{theorem}
+
+\begin{theorem}[Quadratic Reciprocity]
+    (Part II) Let $p$ be an odd prime. Then $2$ is a quadratic residue modulo $p$ if $p$ is congruent to $1$ or $7$ modulo $8$, and $2$ is a nonresidue modulo $p$ if $p$ is congruent to $3$ or $5$ modulo $8$. In terms of the Legendre symbol,
+    \[\legendre{2}{p}=\begin{cases}
+        1 & \textnormal{if $p \equiv 1$ or $7 \mod{8}$,}
+        \\-1 & \textnormal{if $p \equiv 3$ or $5 \mod{8}$}.
+    \end{cases}\]
+\end{theorem}
+\end{comment}
+
+\section{Quadratic Reciprocity}
+
+\begin{theorem}[\textcolor{red}{Law of Quadratic Reciprocity}]
+Let $p$ and $q$ be distinct odd primes.
+    \begin{align*}
+        \legendre{-1}{p}&= 
+        \begin{cases}
+            1 & \textnormal{if $p\equiv 1 \mod{4}$,} \\
+            -1 & \textnormal{if $p \equiv 3 \mod{4}$.}
+        \end{cases}
+        \\ \legendre{2}{p}&=
+        \begin{cases}
+            1 & \textnormal{if $p\equiv 1$ or $7 \mod{8}$,} \\
+            -1 & \textnormal{if $p \equiv 3$ or $5 \mod{8}$.}
+        \end{cases}
+        \\ \legendre{q}{p}&=
+        \begin{cases}
+            \legendre{p}{q} & \textnormal{if $p\equiv 1 \mod{4}$ or $q \equiv 1 \mod{4}$,} \\
+            -\legendre{p}{q} & \textnormal{if $p \equiv 3 \mod{4}$ and $q \equiv 3\mod{4}$.}
+        \end{cases}
+    \end{align*}
+\end{theorem}
+
+
+\begin{definition*}[\textcolor{red}{Jacobi Symbol of $a$ modulo $b$}]
+    Let $a$ and $b$ be odd positive integers. Suppose $b$ has factorization $b=\prod_{i=1}^r p_r$, where each $p_i$ is a distinct prime. Then the \textit{Jacobi symbol of $a$ modulo $b$}is
+    \[\legendre{a}{b}=\prod_{i=1}^r \legendre{a}{p_i}.\]
+\end{definition*}
+
+
+\begin{theorem}[\textcolor{red}{Generalized Law of Quadratic Reciprocity}]
+Let $a$ and $b$ be odd positive integers.
+    \begin{align*}
+        \legendre{-1}{b}&= 
+        \begin{cases}
+            1 & \textnormal{if $b\equiv 1 \mod{4}$,} \\
+            -1 & \textnormal{if $b \equiv 3 \mod{4}$.}
+        \end{cases}
+        \\ \legendre{2}{b}&=
+        \begin{cases}
+            1 & \textnormal{if $b\equiv 1$ or $7 \mod{8}$,} \\
+            -1 & \textnormal{if $b \equiv 3$ or $5 \mod{8}$.}
+        \end{cases}
+        \\ \legendre{a}{b}&=
+        \begin{cases}
+            \legendre{a}{b} & \textnormal{if $a\equiv 1 \mod{4}$ or $b \equiv 1 \mod{4}$,} \\
+            -\legendre{a}{b} & \textnormal{if $a \equiv b \equiv 3 \mod{4}$ and $q \equiv 3\mod{4}$.}
+        \end{cases}
+    \end{align*}
+\end{theorem}
+
+\setcounter{section}{23}
+\section{What Primes are Sums of Two Squares?}
+
+\begin{theorem}[\textcolor{red}{Sum of Two Squares Theorem for Primes}]
+    Let $p$ be a prime. Then $p$ is a sum of two squares exactly when 
+    \[p \equiv 1 \mod{4} \quad (\textnormal{or $p=2$)}.\]
+\end{theorem}
+
+\begin{comment}
+\begin{statement}If $p$ is a sum of two squares, then $p \equiv 1 \mod{4}$.
+\end{statement}
+
+
+\begin{statement}If $p \equiv 1 \mod{4}$, then $p$ is a sum of two squares.
+\end{statement}
+\end{comment}
+
+\begin{algorithm*}[\textcolor{red}{Method of Descent}] 
+    Let $p$ be prime $\equiv 1 \mod{4}$.
+    \begin{enumerate}[label=(\roman*),leftmargin=*]
+        \item Given $A^2 + B^2 = Mp$ with $1<M<p$.
+        \item Choose numbers $u$ and $v$ with 
+            \[u \equiv A \mod{M} \quad \textnormal{and} \quad v \equiv B \mod{M},\]
+            where $-\tfrac{M}{2} \leq u,v \leq \tfrac{M}{2}$.
+        \item Find $1 \leq r < M$ such that $r=\frac{u^2+v^2}{M}$.    
+    \item If $r=1$, conclude that 
+            \[\left(\frac{uA+vB}{M}\right)^2 + \left(\frac{vA-uB}{M}\right)^2 = p;\]
+            otherwise, write
+            \[\left(\frac{uA+vB}{M}\right)^2 + \left(\frac{vA-uB}{M}\right)^2 = rp\]
+            and repeat.
+    \end{enumerate}
+\end{algorithm*}
+
+
+\setcounter{section}{26}
+\section{Euler's Phi Function and Sums of Divisors}
+
+\begin{definition*}
+    The function $F:\Z \to \Z$ is defined by
+    \[F(n)= \sum_{d \mid n} \varphi(d).\]
+\end{definition*}
+
+\begin{lemma}If $\gcd(m,n)=1$, then $F(mn)=F(m)F(n)$.
+\end{lemma}
+
+\begin{theorem}[\textcolor{red}{Euler's Phi Function Summation Formula}]
+Let $n\in \Z$. Then
+    \[F(n)=n.\]
+\end{theorem}
+
+
+\section{Powers Modulo $P$ and Primitive Roots}
+
+\begin{definition*}[\textcolor{red}{Order of $a$ modulo $p$}]
+    Let $a$ be an integer not divisible by the prime $p$. Then \textit{order of $a$ modulo $p$}, denoted $e_p(a)$, is the least positive exponent $e$ such that $a^e \equiv 1 \mod{p}$. 
+\end{definition*}
+
+\begin{theorem}[\textcolor{red}{Order Divisibility Property}]
+    Let $a$ be an integer not divisible by the prime $p$, and suppose that $a^n \equiv 1 \mod{p}$. Then the order $e_p(a)$ divides $n$. In particular, the order $e_p(a)$ always divides $p-1$. 
+\end{theorem}
+
+\begin{definition*}[\textcolor{red}{Primitve Root modulo $p$}]
+    A number $g$ with maximum order $e_p(g)=p-1$ is called a \textit{primitive root modulo $p$}.
+\end{definition*}
+
+\begin{theorem}[\textcolor{red}{Primitve Root Theorem}]
+    Every prime $p$ has a primitive root. More precisely, there are exactly $\varphi(p-1)$ primitive roots modulo $p$.
+\end{theorem}
+
+\begin{definition*}
+    Define $\psi: \N \to \N$ by
+    \[\psi(d)=\#\set{a: 1 \leq a \leq p \ \textnormal{and} \ e_p(a)=d} .\]
+\end{definition*}
+
+\begin{proposition*}
+    If $n$ divides $p-1$, then the congruence
+    \[X^n -1 \equiv 0 \mod{p}\]
+    has exactly $n$ solutions with $0 \leq X < p$.
+\end{proposition*}
+
+\end{document}

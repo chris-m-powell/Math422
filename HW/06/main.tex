@@ -1,0 +1,239 @@
+\documentclass[10pt,twoside]{article}
+
+% \usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\usepackage{fontspec}
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+
+\raggedbottom
+\setmainfont{URW Palladio L}
+% \newfontfamily\headingfont[Path = /usr/share/fonts/opentype/bebas-neue/]{BebasNeue Regular.otf}
+% \setmainfont[Path = /usr/share/fonts/opentype/tex-gyre-pagella/]{texgyrepagella-regular.otf}
+\begin{document}
+\title{\vspace{-2em}Homework 6\vspace{-1em}}
+\author{Chris Powell}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{enumerate}[itemsep=2em,label=\Alph*.]
+    \item Write a program that takes as input positive integers $n$ and $b$, and returns $n$ in base $b$. The output can be a list of digits. You may assume $b \leq 10$.
+
+
+        \begin{lstlisting}
+def baseb(n, b):
+    """Given positive integers n and b, return n in base b"""
+    d = []
+    while n:  # while n not 0
+        d += [n % b]
+        n //= b
+    return d[::-1]  # Return reversed list
+        \end{lstlisting}
+
+    \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        \begin{proof}Let $n_i$ be the value of $\texttt{n}$ after the $i$\textsuperscript{th} iteration, and let $b$ be the fixed value of $\texttt{b}$. Then at each iteration, 
+            $n_{i+1}$ is the quotient when $n_{i}$ is divided by $b$. By the Quotient-Remainder Theorem, there exists unique integers $q_i$ and $r_i$ where $0 \leq r_i < b$. Hence $n_{i+1} = \frac{n_i - r_i}{b}$. Since $0 < b \leq n_i$, we know $0 \leq r_i < n_i$. Thus $(n_i)$ is a strictly decreasing sequence of nonnegative integers. So there is some $k$ for which $n_k =0$. But this is this is the termination condition, so the program ends. We proved in class that for each $n_i$ there exists a unique $t, d_0, d_1,\ldots, d_t$ such that $n_i = \sum_{i=0}^t d_ib^i$, where $0 \leq d_i < b-1$ for all $i$. The correctness of the algorithm follows. 
+        \end{proof}
+    \end{minipage}}
+
+
+    \item Silverman 9.1 Use Fermat's Little Theorem to perform the following tasks.
+        \begin{enumerate}[itemsep=1em,label=(\alph*)]
+            \item Find a number $0 \leq a < 73$ with $a \equiv 9^{794} \mod{73}$.
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                Obseve that
+                \begin{align*}
+                9^{749} &\equiv 9^{10(73)+64} \mod{73}
+                \\&\equiv \left(9^{73}\right)^{10}\cdot 9^{64} \mod{73}
+                \\&\equiv 9^{10}\cdot 9^{64} \mod{73} \justify{Fermat's Little Theorem}
+                \\&\equiv 9^{74} \mod{73}
+                \\&\equiv 9^{1(73)+1} \mod{73}
+                \\&\equiv 9^{73}\cdot 9 \mod{73}
+                \\&\equiv 9 \cdot 9 \mod{73} \justify{Fermat's Little Theorem}
+                \\&\equiv 81 \mod{73}
+                \\&\equiv 8 \mod{73}.
+            \end{align*}
+                So take $a=8$.
+                \end{minipage}}
+            
+            \item Solve $x^{86} \equiv 6 \mod{29}$
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                We have that
+                    \begin{align*}
+                    x^{86} &\equiv x^{2(29)+28} \mod{29}
+                    \\& \equiv \left(x^{29}\right)^2 \cdot x^{28} \mod{29}
+                    \\& \equiv x^2 \cdot x^{28} \mod{29} \justify{Fermat's Little Theorem}
+                    \\& \equiv x^{30} \mod{29} 
+                    \\& \equiv x^{1(29)+1} \mod{29} 
+                    \\& \equiv x^{29} \cdot x \mod{29} 
+                    \\& \equiv x \cdot x \mod{29} \justify{Fermat's Little Theorem} 
+                    \\& \equiv x^2 \mod{29}. 
+                \end{align*}
+                But $6 \equiv 64 \mod{29}$ and $64$ is a perfect square, so $x^2 \equiv 64 \mod{29}$. Therefore $x^{86} \equiv 6 \mod{29}$ has incongruent solutions $[8]$ and $[-8]=[21]$. 
+\end{minipage}}        
+            
+
+            \item Solve $x^{39} \equiv 3 \mod{13}$.
+
+                
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+    Observe that            
+    \begin{align*}
+                    x^{39} &\equiv x^{3(13)+0} \mod{13}
+                    \\&\equiv \left(x^{13}\right)^3 \mod{13}
+                    \\&\equiv x^3 \mod{13} \justify{Fermat's Little Theorem}
+                \end{align*}
+      But
+                \begin{align*}
+                    1^3 &\equiv 1 \not\equiv 3 \mod{13}
+                    \\2^3&\equiv 8 \not\equiv 3 \mod{13}
+                    \\3^3&\equiv 27 \equiv 1 \not\equiv 3 \mod{13}
+                    \\4^3&\equiv 4^2\cdot 4 \equiv 16 \cdot 4 \equiv 3 \cdot 4 \equiv 12 \not\equiv 3 \mod{13}
+                    \\5^3&\equiv 5^2 \cdot 5 \equiv 25 \cdot 5 \equiv 12 \cdot 5 \equiv 60 \equiv 8 \not\equiv 3 \mod{13}
+                    \\6^3&\equiv 6^2 \cdot 6 \equiv 36 \cdot 6 \equiv 10 \cdot 6 \equiv 60 \equiv 8 \not\equiv 3 \mod{13}
+                    \\7^3&\equiv 7^2 \cdot 7 \equiv 49 \cdot 7 \equiv 10 \cdot 7 \equiv 70 \equiv 5 \not\equiv 3 \mod{13}
+                    \\8^3&\equiv 8^2 \cdot 8 \equiv 64 \cdot 8 \equiv 12 \cdot 8 \equiv 96 \equiv 5 \not\equiv 3 \mod{13}
+                    \\9^3&\equiv \left(3^3 \right)^2  \equiv 1^2 \equiv 1 \not\equiv 3 \mod{13}
+                    \\10^3&\equiv \left(2\cdot 5\right)^3 \equiv 2^3 \cdot 5^3 \equiv 3 \cdot 8 \equiv 12 \not\equiv 3 \mod{13}  
+                    \\11^3&\equiv 11^2 \cdot 11 \equiv 121 \cdot 11 \equiv 4 \cdot 11 \equiv 44 \equiv 5 \not\equiv 3 \mod{13} 
+                    \\12^3&\equiv (3 \cdot 4)^3 \equiv 3^3 \cdot 4^3 \equiv 1 \cdot 12 \equiv 12 \not\equiv 3 \mod{13} 
+                \end{align*}
+                Thus $x^{39} \equiv 3 \mod{13}$ has no solution.
+\end{minipage}}
+\end{enumerate}
+
+    \item Silverman 9.2 The quantity $(p-1)! \mod{p}$ appeared in our proof of Fermat's Little Theorem, although we didn't need to know its value.
+        \begin{enumerate}[itemsep=1em,label=(\alph*)]
+            \item Compute $(p-1)!\mod{p}$ for some small values of $p$, find a pattern, and make a conjecture.
+                 
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+    \vspace{1em}
+    \begin{center}          
+    \begin{tabular}{ c  c  c }
+  \hline			
+        p & $(p-1)!$ & $(p-1)! \mod{n}$  \\
+\hline 
+        2 & 1 & 1 \\
+  3 & 2 & 2 \\
+  5 & 6 & 4 \\
+  7 & 720 & 6 \\
+  \hline  
+\end{tabular}
+    \vspace{1em}
+        \begin{conjecture*}Let $p$ a prime integer. Then 
+            \[(p-1)! \equiv p-1 \mod{p}.\]
+                \end{conjecture*}
+\end{center}
+\end{minipage}}
+
+            \item Prove that your conjecture is correct.
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                \begin{lemma*}Let $p$ be a prime integer and let 
+                    \[S = \set{x \in \Z \mid 2 \leq x \leq p-1}.\]
+                    Then for every $a \in S$, there is a unique $b \in S$, with $b \neq a$, such that $ab \equiv 1 \mod{p}$.
+                \end{lemma*} 
+                \begin{proof}
+                    Let $a \in \Z$. Then by the Linear Congruence Theorem, we know such a unique $b \in S$ exists. We show by contradiction that $a$ and $b$ are distinct. Suppose otherwise. Then $a^2 \equiv 1 \mod{p}$ which implies $a^2-1 \equiv 0 \mod{p}$. Thus
+                    \[p \mid a^2 -1=(a+1)(a-1).\]
+                    So either $p \mid a+1$ or $p \mid a-1$ since $p$ is prime. But if $p \mid a+1$, then we have $a \equiv -1 \mod{p}$, a contradiction. Otherwise, $a \equiv 1 \mod{p}$, another contradiction.
+                \end{proof}
+
+                \begin{proposition*}Every prime integer satisfies 
+                    \[(p-1)! \equiv p-1 \mod{p}.\]
+                \end{proposition*}
+
+                \begin{proof}
+                    It follows from the above that lemma that 
+                    \[(p-2)(p-3)\cdots (3)(2) \equiv 1 \mod{p}.\] 
+                    Multiplying both sides of the congruence by $p-1$ proves the conjecture.
+                \end{proof}
+\end{minipage}}
+
+        \end{enumerate}
+
+    \item Silverman 10.2 The number $3750$ satisfies $\phi(3750)= 1000$. Find a number $a$ that has the following properties:
+
+        \begin{enumerate}[label=(\roman*)]
+            \item $a \equiv 7^{3003} \mod{3750}$.
+            \item $1 \leq a \leq 5000$.
+            \item $a$ is not divisible by $7$.
+        \end{enumerate}
+
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        Since
+\begin{align*}
+    \phi(3750)&= \phi(2)\phi(3)\phi\left(5^4\right) \justify{Theorem 11.1 part (b)}
+    \\&= (2- 1)(3-1)(5^4-5^3)\justify{Theorem 11.1 part (a)}
+    \\&= 1\cdot 2 \cdot 500
+    \\&= 1000,
+\end{align*}
+ we conclude that $3750$ does indeed satisfy $\phi(3750)=1000$. So, by Euler's formula, for any integer $a$, with $\gcd(a,3750)=1$, 
+ \[a^{\phi(3750)} \equiv a^{1000} \equiv 1 \mod{3750}.\]
+ In particular, $7^{1000} \equiv 1 \mod{3750}$. But
+ \begin{align*}
+     7^{3003} &\equiv 7^{3000}\cdot 7^3 \mod{3750}
+     \\&\equiv \left(7^{1000}\right)^3\cdot 7^3 \mod{3750} 
+     \\&\equiv 1\cdot 7^3 \mod{3750} 
+     \\&\equiv 7^3 \mod{3750}
+     \\&\equiv 343 \mod{3750}.
+ \end{align*}
+    Note that $343$ satisfies (i) and (ii). Now since we also require $7 \nmid a$, take $a = 343+3750 = 4093$.
+\end{minipage}} 
+
+    \item Let $p$ be a prime, and suppose $\gcd(a,p)=1$. Show that if $ax \equiv c \mod{p}$, then $x \equiv ca^{p-2} \mod{p}$.
+
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        \begin{proof}
+            Assume $ax \equiv c \mod {p}$. Then $axa^{p-2} \equiv ca^{p-2}$. So $xa^{p-1} \equiv ca^{p-2} \mod{p}$.
+            But since $\gcd(a,p)=1$, we know $a \not\equiv 0 \mod{p}$. Therefore, Fermat's Little Theorem implies
+            $xa^{p-1} \equiv x\cdot 1$. Hence $x \equiv ca^{p-2} \mod{p}$. 
+        \end{proof}
+\end{minipage}}
+
+    \item Suppose $\gcd(x,97)=1$. Suppose $x^n \equiv 1 \mod{97}$, where $1 \leq n \leq 96$, and furthermore suppose that $n$ is the smallest number with these properties. Show that $n \mid 96$.
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        \begin{proof}Since $\gcd(x,97)=1$, we know $x \not\equiv 0 \mod{97}$. So Fermat's Little Theorem implies $x^{96} \equiv 1 \mod{97}$. The Quotient-Remainder Theorem implies that $96 = qn+r$ for some unique $q,r\in \Z$, where $0\leq r < n$. So
+            \begin{align*}
+                1 &\equiv x^{qn+r} 
+                \\&\equiv \left(x^q\right)^n\cdot x^r
+                \\&\equiv 1^n \cdot x^r \justify{since $x^n \equiv 1 \mod{97}$}
+                \\&\equiv 1 \cdot x^r
+                \\&\equiv x^r.
+            \end{align*}
+        But this contradicts the minimality of $n$.
+        \end{proof}
+\end{minipage}}
+
+    \item Let $p(x) = x^{33}-x$. Show that if $n$ is an integer, then $15 \mid p(n)$.
+
+        Note that $\gcd(n,15)=g$ for $g \in \set{1,3,5,15}$
+
+    \item Suppose $a$, $n$ are integers with $n \neq 0$ and $\gcd(a,n) \neq 1$. Show that $a^r \neq 1 \mod {n}$ for any positive $r$.
+
+
+
+\end{enumerate}
+
+\end{document}

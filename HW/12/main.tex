@@ -1,0 +1,265 @@
+\documentclass[10pt]{article}
+
+% \usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\usepackage{fontspec}
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+
+\raggedbottom
+\setmainfont{URW Palladio L}
+
+\begin{document}
+\title{\vspace{-2em}Homework 12\vspace{-1em}}
+\author{Chris Powell}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+\begin{enumerate}[itemsep=1em,label=\Alph*.,leftmargin=*]
+    % \setlength{\leftmargini}{.0cm}
+    \item Silverman 22.1. Use the Law of Quadratic Reciprocity to compute the following Legendre Symbols.
+        \begin{enumerate}[label=(\alph*),leftmargin=*]
+            \item $\tlegendre{85}{101}$
+                
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                \begin{align*}
+                    \tlegendre{85}{101}&=\tlegendre{5}{101} \tlegendre{17}{101} \justify{$101$ is an odd prime}
+                    \\& = \tlegendre{101}{5} \tlegendre{101}{17}\justify{$101 \equiv 1 \mod{4}$}
+                    \\& = \tlegendre{1}{5} \tlegendre{101}{17}\justify{$101 \equiv 1 \mod{5}$}
+                    \\& = 1 \cdot \tlegendre{101}{17}\justify{$1$ is a QR $\mod{5}$}
+                    \\& = \tlegendre{16}{17}\justify{$101 \equiv 16 \mod{17}$}
+                    \\& = \tlegendre{2^4}{17}
+                    \\& = \left(\tlegendre{2}{17}\right)^4\justify{$101$ on odd prime}
+                    \\& = 1^4\justify{$101$ on odd prime}
+                    \\& = 1.
+                \end{align*}
+                \end{minipage}}
+            \item $\legendre{29}{541}$
+                
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                \begin{align*}
+                    \tlegendre{29}{541}&=\tlegendre{541}{20}  \justify{$29,541 \equiv 1 \mod{4}$}
+                    \\&=\tlegendre{19}{29}\justify{$541 \equiv 19 \mod{29}$}
+                    \\&=\tlegendre{29}{19}\justify{$29 \equiv 1 \mod{4}$}
+                    \\&=\tlegendre{10}{19}\justify{$29 \equiv 10 \mod{29}$}
+                    \\&=\tlegendre{2}{19}\tlegendre{5}{19}\justify{$19$ is an odd prime}
+                    \\&=(-1)\tlegendre{5}{19}\justify{$19\equiv 3 \mod{8}$}
+                    \\&=(-1)\tlegendre{19}{5}\justify{$19$ is an odd prime}
+                    \\&=(-1)\tlegendre{4}{5}\justify{$19\equiv 4 \mod{5}$}
+                    \\&=(-1)\tlegendre{2^2}{5}
+                    \\&=(-1) \left(\tlegendre{2}{5}\right)^2\justify{$5$ is an odd prime}
+                    \\&=(-1) \left(1\right)^2\justify{$5\equiv 5 \mod{8}$}
+                    \\&=(-1)(1)
+                    \\&=-1.
+                \end{align*}
+                \end{minipage}}
+            \item $\legendre{101}{1987}$
+ 
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                \begin{align*}
+                    \tlegendre{101}{1987}&=\tlegendre{1987}{101}  \justify{$1987 \equiv 1 \mod{4}$}
+                    \\&=\tlegendre{68}{101}  \justify{$1987\equiv 68 \mod{101}$}
+                    \\&=\tlegendre{4}{101} \tlegendre{17}{101} \justify{$101$ is an odd prime}
+                    \\&=\tlegendre{2^2}{101} \tlegendre{17}{101} 
+                    \\&=\left(\tlegendre{2}{101}\right)^2  \tlegendre{17}{101}\justify{$101$ is an odd prime}
+                    \\&=(-1)^2 \tlegendre{17}{101} \justify{$101 \equiv 5 \mod{8}$}
+                    \\&=1 \cdot \tlegendre{17}{101}
+                    \\&=\tlegendre{17}{101}
+                    \\&=\tlegendre{101}{17} \justify{$17,101 \equiv 1 \mod{4}$}
+                    \\&=\tlegendre{16}{17} \justify{$101 \equiv 16 \mod {17}$}
+                    \\&=\tlegendre{2^4}{17} 
+                    \\&=\left(\tlegendre{2}{17}\right)^4 \justify{$17$ is an odd prime}
+                    \\&=1^4 \justify{$17 \equiv 1 \mod{8}$}
+                    \\&=1.
+                \end{align*}
+                \end{minipage}}
+           \pagebreak 
+            \item $\legendre{31706}{43789}$
+ 
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    \begin{align*}
+                        \tlegendre{31706}{43789}&=\tlegendre{2}{43789}\tlegendre{15853}{43789}
+                        \\&= (-1)\tlegendre{15853}{43789} \justify{$43789 \equiv 5 \mod{8}$}
+                        \\&= (-1)\tlegendre{43789}{15853}\justify{$43789 \equiv 5 \mod{8}$}
+                        \\&= (-1)\tlegendre{12083}{15853}\justify{$43789 \equiv 12083 \mod{15853}$}
+                        \\&= (-1)\tlegendre{15853}{12083}\justify{$15853 \equiv 1 \mod{4}$}
+                        \\&= (-1)\tlegendre{3770}{12083}\justify{$15853 \equiv 3770 \mod{12083}$}
+                        \\&=  (-1)\tlegendre{2}{12083}\tlegendre{1885}{12083}\justify{$12083$ is an odd prime}
+                        \\&=  \tlegendre{1885}{12083}\justify{$12083 \equiv 3 \mod{8}$}
+                        \\&=  \tlegendre{12083}{1885}\justify{$1885 \equiv 1 \mod{4}$}
+                        \\&=  \tlegendre{773}{1885}\justify{$12083 \equiv 773 \mod{1885}$}
+                        \\&=  \tlegendre{1885}{773}\justify{$1885 \equiv 773 \equiv 4 \mod{4}$}
+                        \\&=  \tlegendre{339}{773}\justify{$1885 \equiv 339 \mod{773}$}
+                        \\&=  \tlegendre{773}{339}\justify{$773 \equiv 1 \mod{4}$}
+                        \\&=  \tlegendre{95}{339}\justify{$773 \equiv 95 \mod{339}$}
+                        \\&= (-1)\tlegendre{339}{95}\justify{$339 \equiv 95 \equiv 3 \mod{4}$}
+                        \\&= (-1) \tlegendre{54}{95}\justify{$339 \equiv 54 \mod{95}$}
+                        \\&= (-1) \tlegendre{2}{95}\tlegendre{27}{95}\justify{$95$ is an odd prime}
+                        \\&= (-1) \tlegendre{27}{95}\justify{$95 \equiv 7 \mod{8}$}
+                        \\&=  \tlegendre{95}{27}\justify{$95 \equiv 27 \equiv 3 \mod{4}$}
+                        \\&=  \tlegendre{14}{27}\justify{$95 \equiv 14 \mod{27}$}
+                        \\&=  \tlegendre{2}{27}\tlegendre{7}{27}\justify{$27$ is an odd prime}
+                        \\&= (-1) \tlegendre{7}{27}\justify{$27 \equiv 3 \mod{8}$}
+                        \\&=  \tlegendre{27}{7}\justify{$27 \equiv 7 \equiv 3 \mod{4}$}
+                        \\&=  \tlegendre{6}{7}\justify{$27 \equiv 6 \mod{7}$}
+                        \\&=  \tlegendre{2}{7}\tlegendre{3}{7}\justify{$7$ is an odd prime}
+                        \\&=  \tlegendre{3}{7}\justify{$7 \equiv 7 \mod{8}$}
+                        \\&=(-1)\tlegendre{7}{3}\justify{$7 \equiv 3 \equiv 3 \mod{4}$}
+                        \\&= (-1) \tlegendre{1}{3} \justify{$7 \equiv 1 \mod{3}$}
+                        \\&=-1 \justify{$1$ is a QR $\mod{3}$}.
+                \end{align*}
+                \end{minipage}}
+        \end{enumerate}
+    
+    \pagebreak
+    \item Silverman 22.3. Show that there are infinitely many primes congruent to $1$ modulo $3$.
+    
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    \begin{proof}
+                        Suppose there are only finitely many primes congruent to $1$ modulo $3$, say $p_1,\ldots,p_r$.
+                        Let 
+                        \[A=\left(2 \prod_{i=1}^r p_i \right)^2+3.\] 
+                        Then by the Fundamental Theorem of Arithmetic, $A$ has prime factorization $A=\prod_{i=1}^s q_i$, where each $q_i$ is distinct. Because each $q_i$ divides $A$, but no $p_i$ divides $A$, we may conclude $q_i \neq p_j$ for all $i,j$. Thus it remains to show that $\eq{q_i}{3}=\eq{1}{3}$ for some $i$.
+                        Now since 
+                        \[A=\left(2 \prod_{i=1}^r p_i \right)^2+3= 4 \left( \prod_{i=1}^r p_i \right)^2 +3,\] 
+                        we can see that $\eq{A}{4} =\eq{3}{4}$, so $A$ is odd. Thus each prime factor $q_i$ is odd and so either $\eq{q_i}{4}=\eq{1}{4}$ or $\eq{q_i}{4}=\eq{3}{4}$ for all $i$. It cannot be that $\eq{q_i}{4}=\eq{1}{4}$ for all $i$. WLOG, $\eq{q_k}{4}=\eq{3}{4}$. Then $\eq{A}{q_k}=\eq{0}{q_k}$. This implies $x=2\prod_{i=1}^r p_i$ is a solution to $\eq{x^2}{q_k}=\eq{-3}{q_k}$. In other words, $\tlegendre{-3}{q_k}=1$. But   
+                    \begin{align*}
+                        \tlegendre{-3}{q_k}&=\tlegendre{-1}{q_k}\tlegendre{3}{q_k}
+                        = (-1)\tlegendre{3}{q_k}
+                        = \tlegendre{q_k}{3}.
+                    \end{align*}
+                    Hence, $\tlegendre{q_k}{3}=1$ which implies $\eq{q_k}{3}=\eq{1}{3}$.
+                    \end{proof} 
+                \end{minipage}}
+  
+  \pagebreak 
+            \item Silverman 22.10. If $a^{m-1} \not\equiv 1 \mod{m}$, then Fermat's Little Theorem tells us that $m$ is composite. On the other hand, even if
+        \[a^{m-1} \equiv 1 \mod{m}\]
+        for some (or all) $a$'s satisfying $\gcd(a,m)=1$, we cannot not conclude that $m$ is prime. This exercise describes a way to use Quadratic Reciprocity to check if a number is probably prime.
+        \begin{enumerate}[label=(\alph*),leftmargin=*]
+            \item Euler's Criterion says that if $p$ is prime then
+                \[a^{\frac{p-1}{2}}\equiv \legendre{a}{p} \mod{p}.\]
+                Use successive squaring to compute $11^{864} \mod {1729}$ and use Quadratic Reciprocity to compute $\legendre{11}{1729}$. Do they agree? What can you conclude concerning the possible primality of $1729$?
+            
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    The program $\texttt{expmod(11,864,1729)}$ returns $\texttt{1}$, thus the successive squaring method gives
+                    \[11^{864} \equiv 1 \mod{1729}.\]
+                    Now observe that
+                    \begin{align*}
+                        \tlegendre{11}{1729}&=\tlegendre{1729}{11} \justify{$1729 \equiv 1 \mod{4}$}
+                        \\&=\tlegendre{2}{11} \justify{$1729 \equiv 2 \mod{11}$}
+                        \\&=-1 \justify{$11 \equiv 3 \mod{8}$}.
+                    \end{align*}
+                    So $1729$ is not a prime.
+                \end{minipage}}
+            
+            \item Use successive squaring to compute the quantities
+                \[2^{\frac{1293337-1}{2}} \mod{1293337} \quad \textnormal{and} \quad 2^{129336} \mod{1293337}.\]
+                What can you conlude concerning the possible primality of $1293337$?
+ 
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    The program $\texttt{expmod(2,1293336//2,1293337)}$ returns $\texttt{429596}$, thus the successive squaring method gives
+                    \[2^{\frac{1293337-1}{2}} \equiv 429596 \mod{1293337}.\]
+                    Clearly, $429596 \not\equiv \pm 1 \mod{1293337}$ so, by Euler's Criterion, the modulus $1293337$ is not a prime.
+                \end{minipage}}
+        
+        \end{enumerate}
+    
+    \pagebreak
+    \item Silverman 24.4.
+        \begin{enumerate}[label=(\alph*),leftmargin=*]
+            \item Start from $259^2 +1^2=34 \cdot 1973$ and use the Descent Procedure to write the prime $1973$ as a sum of two squares. 
+            
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    To perform this computation, we use the \texttt{descent} program developed in the next exercise. Here, \texttt{descent(259,1,1973)} returns $\texttt{(-23,38)}$. So
+                    \[1973=(-23)^2 + 38^2.\]
+                \end{minipage}}
+
+            \item Start from $261^2+947^2=10 \cdot 96493$ and use the Descent Procedure to write the prime $96493$ as a sum of two squares.
+
+        \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                    To perform this computation, we use the \texttt{descent} program developed in the next exercise. Here, \texttt{descent(261,947,96493)} returns $\texttt{(-258,-173)}$. So
+                    \[96493=(-258)^2 + (-173)^2.\]
+                \end{minipage}}
+        
+        \end{enumerate}
+ 
+\pagebreak
+    \item Silverman 24.8. Write a program that solves $x^2+y^2=n$ by trying $x=0,1,2,3,\ldots$ and checking if $n-x^2$ is a perfect square. Your program should return all solutions with $x \leq y$ if any exist and should return an appropriate message if there is no solution.
+
+        \begin{lstlisting}
+def descent(A, B, p):
+    "return integers (A,B) s.t. A^2+B^2=p; p prime congruent to 1 mod 4, via Fermat's descent method"
+    M = ((A ** 2) + (B ** 2)) // p
+    if ((A ** 2) + (B ** 2)) % p != 0:
+        return "No solution exists."
+    else:
+        while M > 1:
+            u = A % M
+            while u > (M // 2):
+                u = u - M
+            v = B % M
+            while v > (M // 2):
+                v = v - M
+            A, B = ((u * A) + (v * B)) // M, ((v * A) - (u * B)) // M
+            M = ((A ** 2) + (B ** 2)) // p
+        return A, B
+        \end{lstlisting}
+\begin{proof}
+    Let $A_i$, $B_i$, and $M_i$ be the respective values of the python variables \texttt{A}, \texttt{B}, and \texttt{M} after the $i$\textsuperscript{th} iteration of the program, and let $p$ be the fixed value of the parameter $\texttt{p}$. Let $u_{i_j}$ and $v_{i_k}$ be respective values of the variables $\texttt{u}$ and $\texttt{v}$ after the $i_j$\textsuperscript{th} and $i_k$\textsuperscript{th} iterations of their respective inner \texttt{while} loops. Note that $A_0,B_0 \in \Z$ and $p\in \Z_{>0}$, so $M_0=\floor{\frac{A_0+B_0^2}{p}} \in \Z_{>0}$. Fix $i$. Then since $u_{i_j}=u_{i_{j-1}}-M_i$ and $v_{i_k}=v_{i_{k-1}}-M_{i-1}$ at $j$\textsuperscript{th} and $k$\textsuperscript{th} iterations of their respective \texttt{while} loops, it is clear that there is $r,s$ such that $u_{i_r}\leq \floor{\frac{M_i}{2}}$ and $v_{i_s}  \leq \floor{\frac{M_i}{2}}$. Similarly, at each iteration $i$, $M_i=\floor{\frac{A_{i-1}^2+B_{i-1}^2}{p}}$, so $\set{M_i}$ is a decreasing sequence of positive integers. Thus there exist $k$ in the domain of the sequence $\set{M_i}$ such that $M_k \leq 1$. This concludes the proof of termination. Proof of correctness follows from discussion in Silverman (pg. 185-87). 
+\end{proof}
+
+
+    \pagebreak
+    \item Recall that $D_m = \set{d \in \N : d \mid m }$. Use the Fundamental Theorem of Arithmetic to show that if $\gcd(m,n)=1$, then the map
+        \begin{align*}
+            D_m \times D_n &\rightarrow D_{mn}
+            \\(d,e) &\mapsto de
+        \end{align*}
+is a bijection.
+
+
+
+
+\pagebreak
+\item 27.1. A function $f(n)$ that satisfies the multiplication formula
+    \[f(mn)=f(m)f(n) \quad \textnormal{for all numbers $m$ and $n$ with $\gcd(m,n)=1$}\]
+        is called a \textit{multiplicative function}. 
+
+        Suppose now that $f(n)$ is any multiplicative function, and define a new function 
+        \[g(n)=f(d_1)+f(d_2)+\ldots+f(d_r), \quad \textnormal{where $d_1,d_2,\ldots,d_r$ are all divisors of $n$}.\]
+        Prove that $g(n)$ is a multiplicative function.
+
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+\begin{proof}
+    Assume $\gcd(m,n)=1$ for some $m,n \in \Z$. By the previous exercise, any divisor $d$ of $mn$ can be written uniquely as $d=ek$, where $e\mid m$ and $k\mid n$.  So
+        \[g(mn)=\sum_{d \mid mn} f(d)
+        =\sum_{e \mid m, k \mid n} f(ek).\] 
+
+But since $\gcd(m,n)=1$, it follows that $\gcd(e,k)=1$. Therefore, by hypothesis,
+    \[\sum_{e \mid m, k \mid n} f(ek)
+    =\sum_{e\mid m, k \mid n} f(e)f(k) 
+    =\sum_{e \mid d} f(e) \sum_{k \mid n} f(k) 
+    = g(m)g(n). \]
+\end{proof}
+                \end{minipage}}
+
+\end{enumerate}
+\end{document}

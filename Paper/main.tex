@@ -1,0 +1,362 @@
+\documentclass[10pt,reqno]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+\usepackage[colorlinks]{hyperref}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\raggedbottom
+
+\begin{document}
+\title{\vspace{-1cm}\textbf{\LARGE{The NTRU Public-key Cryptosystem}}}
+\author{Chris Powell}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+\section{Introduction}
+No known classical alogirithm can efficiently solve the \emph{integer factorization problem} or the \emph{discrete log problem}. For this reason, these two problems are central to the construction of all currently implemented public-key cryptosystems. But a quantum algorithm, known as \emph{Shor's algorithm}, can efficiently solve both of these problems~\cite{Shor:1997:PAP:264393.264406}. Thus quantum computers pose a serious threat to IT security as they are capable of trivially breaking the most widely adopted asymmetric ciphers (e.g., RSA and elliptic curve cryptography). To prepare for the advent of a general purpose quantum computer, standardization groups such as the National Institute of Standards and Technology (NIST) have called for adoption of cryptosystems which are resistant to attacks by quantum computers~\cite{unknown}.
+
+The NTRU cryptosystem, first introduced in \cite{Hoffstein98ntru:a} by Hoffstein, Pipher, and Silverman, is a lattice-based cryptosytem that is resistant to attacks by both classical and quantum computers. Its security is based on the conjectured intractability of a problem in lattice reduction known as the \emph{shortest vector problem}~\cite{Pipher_josephh.}.\footnote{The connection with lattices is beyond the scope of this paper. For information on this topic, see discussion in~\cite[\S 6.11]{Pipher_josephh.}.} 
+ NTRU consists of two cryptographic primitives: the \textsf{NTRUEncrypt}\footnote{\textsf{NTRUEncrypt} is currently available under an open-source license; specifications for its implemention in \texttt{C} are available at \url{https://github.com/NTRUOpenSourceProject/NTRUEncrypt}.} algorithm, which is used for encryption, and \textsf{NTRUSign}, which is for digital signatures. This paper focuses soley on \textsf{NTRUEncrypt}. We give a brief description of some of its underlying mathematical constructions and show that for suitably chosen parameters, decryption of the ciphertext always matches the original plaintext.
+
+\section{Background}
+
+
+\begin{definition}[Encryption]\label{def:encryption}
+    Let $\mathcal{M}$ be the set of plaintexts, $\mathcal{C}$ the set of ciphertexts, and $\mathcal{K}_1,\mathcal{K}_2$ the keyspaces. Fix $\left(k_{\sf{pub}},k_{\sf{priv}}\right) \in \mathcal{K}_1\times\mathcal{K}_2$. Let $E_{k_{\sf{pub}}}: \mathcal{M} \to \mathcal{C}$ and $D_{k_{\sf{priv}}}: \mathcal{C} \to \mathcal{M}$. Then $E_{k_{\sf{pub}}}$ is an \emph{encryption} if for each $m \in \mathcal{M}$, 
+    \begin{enumerate}[label=(\roman*)]
+        \item $D_{k_{\sf{priv}}}\left(E_{k_{\sf{pub}}}(m)\right)=m$,
+        \item $E_{k_{\sf{pub}}}(m)$ can be computed efficiently given $k_{\sf{pub}}$, and
+        \item $D_{k_{\sf{priv}}}(c)$ can be computed efficiently given $k_{\sf{priv}}$.
+    \end{enumerate}
+\end{definition}
+
+
+\begin{definition}[Ring]\label{def:ring}
+    Let $R$ be a set equipped with binary operations $+,\cdot:R \times R \to R$. Then $R$ is a \emph{ring} if
+    \begin{enumerate}[label=(\roman*)]
+        \item $(R,+)$ forms an abelian group,
+        \item $(R,\cdot)$ forms a monoid, and
+        \item The distributive law holds, i.e., for all $a,b,c \in R$, $c\cdot  (a+b)=(c \cdot a)+(c \cdot b)$.
+    \end{enumerate}
+    Furthermore, if $R$ is commutative with respect to $\cdot$, then $R$ is called a \emph{commutative ring}.  
+\end{definition}
+
+\begin{remark*}
+A monoid is like a group without the requirement that every element have an inverse.
+\end{remark*}
+
+
+\begin{definition}[Ring homomorphism]\label{def:homomorphism}
+    Let $\varphi: R_1 \to R_2$, where $R_1$ and $R_2$ are rings. Then $\varphi$ is a \emph{ring homomorphism} if for all $a,b \in R_1$,
+    \begin{enumerate}[label=(\roman*)]
+        \item $\varphi(a + b) = \varphi(a) + \varphi(b)$,
+        \item $\varphi(a \cdot b) = \varphi(a) \cdot \varphi(b)$, and
+        \item $\varphi(1_{R_1}) = 1_{R_2}$.
+    \end{enumerate}
+\end{definition}
+
+
+\begin{definition}[$N$\textsuperscript{th} root of unity]\label{def:nthrootofunity}
+    Fix $N \in \Z_{>0}$. Let $\zeta \in \C$. Then $\zeta$ is an \emph{$N$\textsuperscript{th} root of unity} if $\zeta=e^{\frac{2k \pi i}{N}}$ for some $k \in \set{0,\ldots, N-1}$. 
+\end{definition}
+
+
+\begin{proposition}\label{prop:nthrootofunity}
+    If $\zeta$ is an $N$\textsuperscript{th} root of unity, then $\zeta^N=1$.
+\end{proposition}
+\begin{proof}
+    Since $2\pi \in \R$, Euler's identity implies 
+    \[e^{2\pi i} = \cos(2 \pi) +i \sin(2\pi)=1.\]
+    Thus
+    \[\zeta ^N = \left( e^{\frac{2k \pi i}{N}} \right)^N =e^{2k \pi i}=\left(e^{2\pi i}\right)^k=1^k=1.\]
+\end{proof}
+
+\begin{definition}[Primitive $N$\textsuperscript{th} root of unity]\label{def:primitive}
+An $N$\textsuperscript{th} root of unity $\zeta$ is \emph{primitive} if $\zeta^k \neq 1$ for all $k \in \set{1,\ldots,N-1}$. 
+\end{definition}
+
+
+\begin{example*}\label{ex:4throotofunity}
+The $4$\textsuperscript{th} roots of unity are $\set{\pm{1},\pm{i}}$. But only $\pm{i}$ are primitive as $1^1=1$ and $(-1)^2=1$.
+\end{example*}
+
+
+\begin{proposition}[Cyclotomic polynomial rings]\label{prop:cycpolyring}
+Let $\zeta$ be a primitive $N$\textsuperscript{th} root of unity. Then  
+    \[\Z[\zeta] = \left\{ \sum_{i=0}^{N-1} \alpha_i \zeta^i \mid \alpha_i \in \Z \right\} \quad \textnormal{and} \quad \Z_q[\zeta] = \left\{ \sum_{i=0}^{N-1} \alpha_i \zeta^i \mid \alpha_i \in \Z_q \right\} \]
+are commutative rings under polynomial addition and multiplication.\footnote{In the more general context of algebraic number theory, $\Z[\zeta]$ is known as the \emph{ring of integers} of the cyclotomic number field $\Q(\zeta)$. The ring of integers is a generalization of $\Z \subseteq \Q$.}
+\end{proposition}
+
+\begin{comment}
+\begin{remark*}
+    Note that whenever we perform polynomial multiplication in $\Z[\zeta]$ or $\Z_q[\zeta]$, and $\zeta^N$ appears in the product, we can apply the relation $\zeta^N=1$.
+\end{remark*}
+\end{comment}
+
+
+\begin{proposition}\label{prop:reductionhomomorphism}
+    The reduction map $\Z[\zeta] \to \Z_q[\zeta]$ defined by 
+    \[\sum_{i=0}^{N-1} \alpha_i \zeta^i \mapsto \sum_{i=0}^{N-1} [\alpha]_q \zeta^{i}.\]
+    is a ring homomorphism, i.e., for all $a, b \in \Z[\zeta]$,
+        \[ [a + b]_q = [a]_q + [b]_q \quad \textnormal{and} \quad [a \cdot b]_q = [a]_q \cdot [b]_q.\]
+\end{proposition}
+
+
+\begin{remark*}
+We use $+$ interchangably to denote addition in both $\Z[\zeta]$ and $\Z_q[\zeta]$; likewise for multiplication $\cdot$.
+    \begin{comment}
+Furthermore, we identify $\Z$ as a subset of $\Z[\zeta]$ and $\Z_q$ as a subset $\Z_q[\zeta]$.\footnote{This means, for example, that we can treat $a \in \Z$ as the constant polynomial $a\zeta^0 \in \Z[\zeta]$.}
+    \end{comment}
+    \end{remark*}
+
+
+\begin{proposition}[Proposition 6.45 in \cite{Pipher_josephh.}]\label{prop:modularinverse}
+    Let $q$ be prime.  Assume 
+    \[\gcd\big(\eq{a}{q}, \zeta^N-1 \big) = \eq{1}{q}.\] 
+    Then we can find a polynomial $u \in \Z[\zeta]$ such that
+    \[\eq{a}{q}\cdot \eq{u}{q} = \eq{1}{q}.\]
+\end{proposition}
+
+
+\begin{remark*}
+    We can compute $\eq{u}{q}=\eq{a}{q}^{-1}$ via the extended Euclidean algorithm in $\Z_q[\zeta]$. For the full details on this procedure, see~\cite[page 391]{Pipher_josephh.}.
+\end{remark*}
+
+
+\begin{definition}[Centered Lift, page 390 in \cite{Pipher_josephh.}]\label{def:lift}
+    The \emph{centered lift of $a$ modulo q to $\Z[\zeta]$} is the map $\mathrm{lift}_q:\Z_q[\zeta] \to \Z[\zeta]$ which sends 
+    $[a]_q \in \Z_q[\zeta]$ to the unique polynomial $a' \in \Z[\zeta]$ satisfying $[a']_q = [a]_q$, 
+    where each coefficient $\alpha'_i$ of $a'$ lies in the interval $\left(\frac{-q}{2},\frac{q}{2} \right]$.
+\end{definition}
+
+
+\begin{definition}[Ternary Polynomials, page 392 in \cite{Pipher_josephh.}]\label{def:ternarypoly}
+    The set of \emph{ternary polynomials} $\mathcal{T}(m,n) \subseteq \Z[\zeta]$ is defined to be the set of all $a(\zeta) \in \Z[\zeta]$ for which 
+    \[a(\zeta) \ \textnormal{has} \begin{cases}\textnormal{$m$ coefficients $\alpha_i=1$}\\
+    \textnormal{$n$ coefficients $\alpha_i=-1$} \\
+    \textnormal{$N-(m+n)$ coefficients $\alpha_i=0$}\end{cases}.\]
+\end{definition}
+
+
+\section{Description of \textnormal{\textsf{NTRUEncrypt}}}
+Suppose Rachael would like to transmit a confidential message to Deckard, but their mutual adversary, Tyrell, has a quantum computer. To communicate securely, they agree to use \textsf{NTRUEncrypt}. Since Deckard is the intended recipient of Rachael's message, protocol requires that he first generate a public-private keypair. He proceeds as follows. 
+\subsection{Key Generation}\label{subsec:keygen}
+Following the procedure described in~\cite{Hoffstein98ntru:a}, Deckard selects positive integers $N$, $p$, $q$, and $d$ such that
+\hypertarget{star}{\begin{equation}
+N \ \textnormal{is an odd prime,} \quad \gcd(p,q)=1, \quad \textnormal{and} \quad q>p.  \tag{$\circledast$}\end{equation}}
+Then he finds a ternary polynomial $f \in \mathcal{T}(d+1,d)$ such that $f$ is invertible in both $\Z_p[\zeta]$ and $\Z_q[\zeta]$. He computes $[f]_p^{-1}$ and $[f]_q^{-1}$ and randomly selects a ternary polynomial $g \in \mathcal{T}(d,d)$. Deckard then hides $k_{\sf{priv}}=\left(f,[f]_p^{-1} \right) \in \Z[\zeta] \times \Z_p[\zeta]$ and publishes $k_{\sf{pub}}= [f]_q^{-1} \cdot [g]_q \in \Z_q[\zeta]$, along with the parameters $(N,p,q,d)$.
+
+
+\begin{example}\label{ex:keygen}
+Consider NTRU public parameters $(N,p,q,d)=(5,3,41,2)$. Let $f \in \mathcal{T}(3,2)$ and $g \in \mathcal{T}(2,2)$ be the polynomials
+    \[f(\zeta)=\zeta^4-\zeta^3+\zeta^2-\zeta+1 \quad \textnormal{and} \quad g(\zeta)=\zeta^4+\zeta^3-\zeta^2-\zeta.\]
+    Applying the extended Euclidean algorithm in $\Z_q[\zeta]$ and $\Z_p[\zeta]$, we find 
+    \[[f(\zeta)]_3^{-1} = \eq{2\zeta+2}{3} \quad \textnormal{and} \quad [f(\zeta)]_{41}^{-1} = \eq{21\zeta+21}{41}.\]
+Next we compute the product
+    \begin{align*}
+        [f(\zeta)]_{41}^{-1} \cdot \big[g(\zeta)\big]_{41} &=  \left[21\zeta+21\right]_{41}\cdot [\zeta^4+\zeta^3+40\zeta^2+40\zeta]_{41}
+        \\&= \eq{\zeta^4+40\zeta^2+20\zeta+21}{41}.
+    \end{align*}
+    Thus $k_{\sf{pub}} = \eq{\zeta^4+40\zeta^2+20\zeta+21}{41}$ and $k_{\sf{priv}} = \left(\zeta^4-\zeta^3+\zeta^2-\zeta+1, [2\zeta+1]_3 \right)$.
+    \[\]
+\end{example}
+
+
+\subsection{Encryption}\label{subsec:encryption}
+As observed in \cite[page 393]{Pipher_josephh.}, the NTRU plaintext space is
+\[\mathcal{M} = \left \{ \sum_{i=0}^{N-1} \alpha_i \zeta^i \in \Z[\zeta] \mid \abs{\alpha_i}\leq \frac{p}{2} \right\} \subseteq \Z[\zeta].\]
+So upon obtaining Deckard's public key $k_{\sf{pub}}$ and choice of parameters $(N,p,q,d)$,
+Rachael encodes her message as a polynomial $m \in \mathcal{M}$ and generates an ephemeral key $r \in \mathcal{T}(d,d)$.\footnote{An \emph{ephemeral key} is cryptographic key that is used once and then discarded; it is not stored.} She then applies the NTRU encryption $E_{k_{\sf{pub}}}: M \to \Z_q[\zeta]$ defined in \cite{Hoffstein98ntru:a} by
+\[E_{k_{\sf{pub}}}(m) =[p\cdot k_{\sf{pub}} \cdot r + m]_q.\]
+Finally, Rachael transmits the ciphertext $c=E_{k_{\sf{pub}}}(m)$ to Deckard. 
+\begin{example}\label{ex:encryption}
+    Let $(N,p,q,d)$, $f$, and $g$ be as in Example 1. Let $m \in M$ be the polynomial
+    \[m(x) = \zeta^4-\zeta^3+\zeta+1.\]
+Let the ephemeral key $r \in \mathcal{T}(2,2)$ be the polynomial
+    \[r(x)=-\zeta^3+\zeta^2+\zeta-1.\]
+    Then the NTRU ciphertext $c \in \Z_{41}[\zeta]$ is the polynomial
+    \begin{align*}
+        E_{k_{\sf{pub}}}(m) &= \eq{ 3}{41} \cdot \eq{\zeta^4+40\zeta^2+20\zeta+21}{41} \cdot \eq{-\zeta^3+\zeta^2+\zeta-1}{41}+\eq{\zeta^4-\zeta^3+\zeta+1}{41}
+        % \\&=\left(3\zeta^4+38\zeta^2+19\zeta+22\right) \cdot \left(40\zeta^3+\zeta^2+\zeta+40\right)+ \left(\zeta^4+ 40\zeta^3+\zeta+1\right)
+        % \\&=\left(16\zeta^4+35\zeta^3+6\zeta+25\right) + \left(\zeta^4+40\zeta^3+\zeta+1\right)
+        \\&=\eq{17\zeta^4+34\zeta^3+7\zeta+26}{q}.
+    \end{align*}
+    \end{example}
+
+\subsection{Decryption}\label{subsec:decryption}
+Upon receiving Rachael's ciphertext $c \in \Z_q[\zeta]$, Deckard applies decryption $D_{k_{\sf{priv}}}: \Z_q[\zeta] \to M$ given in \cite{Hoffstein98ntru:a} by
+        \[D_{k_{\sf{priv}}} (c) = \lift{ [f]_p^{-1} \cdot \left [ \lift{ [f]_q \cdot \left[ c \right]_q }{q} \right]_p }{p}.\]
+
+
+\begin{example}\label{ex:decryption}
+    Let $(N,p,q,d)$, $f$, $g$, $m$, and $c$ be as above. We first compute the product
+    \begin{align*}
+        [f]_{41} * [c]_{41} &= \eq{\zeta^4-\zeta^3+\zeta^2-\zeta+1}{41} \cdot \eq{17\zeta^4+34\zeta^3+7\zeta+26}{41}
+        % \\&=\big (x^4+[40]_{41} x^3+x^2+[40]_{41} x+[40]_{41} \big) * \left([20]_{41} x^4+[37]_{41} x^3+[19]_{41} x^2+[4]_{41} x+[4]_{41} \right)
+        % \\&= \eq{\zeta^4+40\zeta^3+\zeta^2+40\zeta+1}{41} \cdot \eq{17\zeta^4+34\zeta^3+7\zeta+26}{41}
+        \\&=\eq{2\zeta^4 +32\zeta^3+36\zeta^2+5\zeta+9}{41}. 
+    \end{align*}
+By center lifting modulo $41$, we obtain the polynomial
+    \[2\zeta^4+9\zeta^3-5\zeta^2+5\zeta+9 \in \Z[\zeta].\]
+Next, we compute
+    \begin{align*}
+        \eq{2\zeta+2}{3} \cdot \eq{2\zeta^4+9\zeta^3-5\zeta^2+5\zeta+9}{3} &=\eq{\zeta^4+2\zeta^3+\zeta+1}{3}.
+    \end{align*}
+    Finally, by center lifting modulo $3$ to $\Z[\zeta]$, we recover the plaintext
+    \[m(\zeta)=\zeta^4-\zeta^3+\zeta+1.\]
+\end{example}
+
+\begin{comment}
+\begin{proposition}\label{prop:insecure}
+    If $p \mid q$, then Tyrell can easily decrypt the message without knowledge of $k_{\sf{priv}}$. 
+\end{proposition}
+\begin{proof}
+    Recall that $(N,p,q,d)$ is public. Suppose $p \mid q$. Then 
+    \begin{align*}
+        E_{k_{\sf{pub}}}(m)&=\eq{p}{q}\cdot \eq{f}{q}^{-1} \cdot \eq{g}{q}\cdot \eq{r}{q}+ \eq{m}{q}
+        =\eq{m}{q}.
+    \end{align*}
+    Now write $\eq{m}{q}=\sum\eq{\alpha_i}{q}\zeta^i$. Then for some $c_i \in \Z$,
+    \begin{align*}
+        \eq{m}{q}&=\sum_{i=0}^{N-1} (c_i q+\alpha_i)\zeta^i=\sum_{i=0}^{N-1}(c_i q)\zeta^i + \sum_{i=0}^{N-1} \alpha_i \zeta^i.
+    \end{align*}
+    But since $p \mid q$, we know $q = p \ell$ for some $\ell \in \Z$ and $\eq{p}{p}=\eq{0}{p}$. Hence
+        \begin{align*}
+            \eq{\eq{m}{q}}{p} = \sum_{i=0}^{N-1} \eq{\Z(p\ell)}{p}\zeta^i + \sum_{i=0}^{N-1} \eq{\alpha_i}{p}\zeta^i = \sum_{i=0}^{N-1} \eq{\alpha_i}{p}\zeta^i =\eq{m}{p}.
+        \end{align*}
+        Now center lifting modulo $p$ to $\Z[\zeta]$ gives the plaintext $m\in \Z[\zeta]$. 
+\end{proof}
+
+
+\begin{remark*}
+    The above result justifies the requirement that $\gcd(p,q)=1$.
+\end{remark*}
+\end{comment}
+
+
+\section{Main Results}
+We now show that for suitable parameters $(N,p,q,d)$, decryption of the ciphertext always matches the original plaintext. The argument for the following results closely follows the treatment given in \cite{Pipher_josephh.}.
+
+\begin{lemma}\label{lemma:4.1}
+    Let $N$, $p$, $q$, and $d$ be positive integers satsifying \hyperlink{star}{$\circledast$}. Let $f \in \mathcal{T}(d+1,d)$, $g,r \in \mathcal{T}(d,d)$, and $m \in \mathcal{M}$. Write $p\cdot g \cdot r + f \cdot m = \sum \alpha_i \zeta ^i$. Then 
+    \[\abs{\alpha_i} < \left(3d+\frac{1}{2}\right)\cdot p\]
+    for all $i$.
+\end{lemma}
+\begin{proof}
+    Observe that since $g, r \in \mathcal{T}(d,d)$, each has exactly $d$ coefficients equal to $1$ and $d$ coeffcients equal to $-1$. It follows that each coefficient of the product $g\cdot r$ has magnitude at most $2d$. Similarly, $f \in \mathcal{T}(d+1,d)$ has exactly $d+1$ coefficients equal to $1$ and $d$ coefficients equal to $-1$, and each coefficient of $m \in \mathcal{M}$ has magnitude at most $\frac{1}{2}$, by definition of $\mathcal{M}$. Thus each coefficient in the product $f\cdot m$ has magnitude at most $(2d+1) \cdot \frac{1}{2}$. Together this implies 
+    \begin{align*}
+        \abs{\alpha_i} \leq  p \cdot \left( (2d) + \left(2d+1\right)\cdot \frac{1}{2} \right) = \left (3d+\frac{1}{2}\right) \cdot p  
+    \end{align*}
+    for all $i$.
+    \end{proof}
+
+\begin{lemma}\label{lemma:4.2}
+If $(N, p, q, d)$ satisfies $q > (6d + 1) \cdot p$, then
+    \[\lift{\eq{p \cdot g \cdot r + f \cdot m}{q}}{q}=p\cdot g \cdot r + f \cdot m.\]
+\end{lemma}
+\begin{proof}
+Write $p\cdot g \cdot r + f \cdot m = \sum \alpha_i \zeta ^i$. Since 
+    \[q >(6d+1) \cdot p = 2 \cdot (3d+\tfrac{1}{2}) \cdot p,\]
+    the previous lemma implies that $\abs{\alpha_i}<\frac{q}{2}$ for all $i$. In other words,
+    each coefficient of $p \cdot g \cdot r + f \cdot m$ is contained in the interval $(-\frac{q}{2},\frac{q}{2})$. This proves the lemma.
+\end{proof}
+
+\begin{theorem}[Proposition 6.48 in \cite{Pipher_josephh.}]\label{theorem:4.3}
+    If $(N, p, q, d)$ satisfies 
+    \[q > (6d + 1) \cdot p,\] 
+    then 
+    \[D_{k_{\sf{priv}}}\left(E_{k_{\sf{pub}}} (m)\right)=m\]
+    for all $m \in R$.
+\end{theorem}
+\begin{proof}Suppose $m \in \mathcal{M}$. Then since $k_{\sf{pub}}=\eq{f}{q}^{-1} \cdot \eq{g}{q}$, the NTRU ciphertext is of the form  
+    \[\eq{c}{q}= \eq{p\cdot k_{\sf{pub}}\cdot r+m}{q} = \eq{p}{q} \cdot \eq{f}{q}^{-1} \cdot \eq{g}{q} \cdot \eq{r}{q} + \eq{m}{q}.\]
+    Multiplying both sides by $\eq{f}{q}$ and applying the distributive law gives
+    \begin{align*}
+        \eq{f}{q} \cdot \eq{c}{q}&= \eq{f}{q} \cdot \big(\eq{p}{q} \cdot \eq{f}{q}^{-1} \cdot \eq{g}{q} \cdot \eq{r}{q} + \eq{m}{q}\big)
+        \\&=\big( [f]_q \cdot  \eq{p}{q} \cdot [f]_q^{-1} \cdot  [g]_q \cdot [r]_q \big) + \big( [f]_q \cdot  [m]_q \big) 
+        \\&= \eq{1}{q} \cdot \eq{p \cdot g \cdot r + f \cdot m}{q}
+        \\&=  \eq{p \cdot g \cdot r + f \cdot m}{q}.
+    \end{align*}
+    But since $q > (6d +q)$, Lemma 4.2 implies 
+    \[\lift{ \eq{f}{q} \cdot \eq{c}{q} }{q} = p \cdot g \cdot r + f \cdot m.\]
+    Reducing modulo $p$ and multiplying by both sides by the private polynomial $\eq{f}{p}^{-1}$ gives
+    \begin{align*}
+        \eq{f}{p}^{-1} \cdot \big( \eq{f}{p} \cdot \eq{c}{p}\big) &= \eq{f}{p}^{-1} \cdot \big( \eq{p}{p} \cdot \eq{g}{p} \cdot \eq{r}{p}+ \eq{m}{p} \big)
+        \\&=\big([f]_p^{-1} \cdot [p]_p \cdot [g]_p \cdot [r]_p\big) + \big( [f]_p^{-1}\cdot [f]_p \cdot  [m]_p \big).
+    \end{align*}
+    As $\eq{p}{p}=\eq{0}{p}$ and $\eq{f}{p}\cdot \eq{f}{p}^{-1}=\eq{1}{p}$, we get 
+    \[ \big([f]_p^{-1} \cdot [p]_p \cdot [g]_p \cdot [r]_p\big) + \big( [f]_p^{-1}\cdot [f]_p \cdot  [m]_p \big) =\eq{m}{p}.\]
+    Since coefficient of $m$ lies in $(\frac{p}{2},\frac{p}{2})$, center lifting modulo $p$ to $\Z[\zeta]$ gives the original plaintext.
+\end{proof}
+
+
+\pagebreak
+\bibliographystyle{alpha}
+\bibliography{refs}
+\pagebreak
+
+\section{Appendix}
+\label{code:sage-ntruencrypt}
+\begin{lstlisting}[caption=\textsf{NTRUEncrypt}]
+def Z(f):
+    """Return polynomial in cyclotomic ring Z[zeta]"""
+    Zx.<x> = PolynomialRing(ZZ, 'x')
+    Z.<x> = Zx.quotient(x^N-1)
+    return Z(f)
+
+def Zmod(f, q, N):
+    """Return polynomial in cyclotomic ring Zq[zeta]"""
+    Zs.<x> = PolynomialRing(GF(q), 'x')
+    Zmod.<x> = Zs.quotient(x^N-1)
+    return Zmod(f)
+
+def invmod(f, s, N):
+    """Return modular inverse in cyclotomic ring Zq[zeta]"""
+    Rs.<x> = PolynomialRing(GF(s),'x')
+    return Rs(f).inverse_mod(x^N-1)
+
+def lift(f, q):
+    """Return center lift mod q of reduced cyclotomic polynomial"""
+    for i in range(len(f)):
+        f[i] = int(f[i]) % q
+        if f[i] > (q / 2):
+            f[i]-= q
+    return R(f)
+
+def keygen(N, p, q, d, f, g):
+    """Generate NTRUEncrypt public-private keypair"""
+    if d < 1:
+        return "Invalid parameters: d must be a positive integer"
+    if N < 3:
+        return "Invalid parameters: N must be an odd prime"
+    if q <= (6*d+1)*p:
+        return "Invalid parameters: q <= (6*d+1)*p, decryption may fail"
+    if gcd(p,q) != 1:
+        return "Invalid parameters: p, q are not relatively prime"
+    K_priv = [Z(f), invmod(f, p, N)]
+    K_pub = invmod(f, q, N) * Zmod(g, q, N)
+    return K_priv, K_pub
+
+def encrypt(K_pub, r, N, q, m):
+    """Return NTRUEncrypt ciphertext"""
+    m, r, h = Zmod(m, q, N), Z(r), Zmod((K_pub).list(), q, N)
+    return  ((p * h) * r) + m
+
+def decrypt(N, p, q, d, K_priv, c):
+    """Return decryption of NTRUEncrypt ciphertext"""
+    a = lift((Zmod(K_priv, q, N) * c).list(), q)
+    return lift((invmod(f, p, N) * a).list(), p)
+\end{lstlisting}
+\end{document}

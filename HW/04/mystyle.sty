@@ -1,0 +1,89 @@
+%PAGE SETUP
+\geometry{margin=1.75in} %MARGINS
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Math 422: Introduction to Number Theory}
+\chead{\small }
+\rhead{\small Spring 2019}
+\renewcommand{\headrulewidth}{0.5pt}
+\lfoot{}
+\cfoot{\thepage \ of \pageref{LastPage}}
+\rfoot{} 
+
+%TITLE PAGE SETUP
+\fancypagestyle{firststyle}
+{
+    \fancyhf{}
+    \lhead{\small Math 422: Introduction to Number Theory}
+    \chead{\small }
+    \rhead{\small Spring 2019}
+    \lfoot{}
+    \cfoot{\thepage \ of \pageref{LastPage}}
+    \rfoot{}  
+}
+
+% \setcounter{section}{1}
+\newlist{exercises}{enumerate}{1}
+\setlist[exercises]{label={\arabic*.}}
+% \setlist[exercises]{label=\textbf{\thesection.\arabic*.}}
+
+
+%CUSTOM CODE BOX ENVIRONMENT
+\lstset
+{
+    language = python,
+    frame = tb, 
+    aboveskip = 3mm,
+    belowskip = 3mm,
+    backgroundcolor = \color{white},
+  	basicstyle = \color{black}\footnotesize\ttfamily,
+    commentstyle = \itshape,
+    morecomment = [s]{"""}{"""},
+    breaklines = true,
+    showstringspaces = false,
+    tabsize = 4
+}
+
+\setlength{\topsep}{1em}
+\theoremstyle{definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{definition}{Definition}
+\newtheorem*{claim*}{Claim}
+\newtheorem{claim}{Claim}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{exercise}{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{observation}{Observation}
+\newtheorem{example}{Example}
+
+
+\theoremstyle{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{theorem}{Theorem}[section]
+
+
+
+% General
+\renewcommand{\emptyset}{\varnothing}
+\newcommand{\isom}{\cong}
+\newcommand{\nsubset}{\not\subset}
+\newcommand{\To}{\Rightarrow}
+\providecommand{\abs}[1]{\left \lvert#1 \right \rvert}
+\let\mod\relax
+\newcommand{\mod}[1]{\ (\mathrm{mod}\ #1)}
+
+
+% Number theory
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\DeclareMathOperator{\lcm}{LCM}
+%\renewcommand{\mod}[1]{\textit{\textnormal{ (mod #1)}}} 

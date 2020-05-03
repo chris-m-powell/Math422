@@ -1,0 +1,385 @@
+\documentclass[10pt,twoside]{amsart}
+
+\usepackage[T1]{fontenc} 
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\usepackage{appendix}
+
+\begin{document}
+\title{Homework 2\\\textnormal{Chris Powell\\Stardate 2019.37} }
+\email{powel054@cougars.csusm.edu}
+\maketitle
+\thispagestyle{firststyle}
+
+\begin{exercises}
+    \item A circular dial has the numbers 0 through 56 inscribed at equal intervals
+along the rim.
+
+\begin{enumerate}[label = (\alph*)]
+
+    \item A grasshopper sits at the 0. It can jump 5 units in either direction
+(clockwise or counterclockwise) any number of times. What is the
+set of numbers that the grasshopper can reach with a sequence of
+jumps?
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        
+    The set of numbers the grasshopper can reach is $\{0,1,\ldots,56\}$.    
+
+        \begin{claim*}
+            For each $n \in \Z$, there is some $k \in \Z$ for which $5k \equiv n \mod 57$.
+        \end{claim*}
+
+    \begin{proof}
+        Since $\gcd(5,57)=1$, we know $\bar{5}$ is a unit in $\Z_{57}$. So there must be some $m\in \Z$ for which $5m \equiv 1 \mod 57$. Thus for any $n \in \Z$, we have $5m \cdot n \equiv 1 \cdot n$. But since $\Z$ is a ring, $mn = k$ for some $k \in \Z$ and $1 \cdot n = n$, so $5k \equiv n \mod 57$, as claimed.  
+    \end{proof}
+
+    The positions on the dial combined with the grasshopper's ability to jump is isomorphic to $\Z_{57}$. Consequently, the above result implies that the grasshopper can get to any position on the dial.
+\end{minipage}}
+
+
+    \item Same question, but instead the grasshopper can only jump 3 units
+at a time.
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+   
+    Let $S=\{0,1,\ldots, 56\}$. The set of numbers the grasshopper can reach is given by $\{x \in S \mid x \equiv 0 \mod 3 \}$
+
+    \begin{claim*}For each $m \in \Z$, there is some $n \in \Z$ for which $3m \equiv 3n \mod 57$.
+    \end{claim*}
+
+    \begin{proof}
+        Let $m \in \Z$. Suppose otherwise that there is no $n \in \Z$ such that $3m \equiv 3n \mod 57$. Then either $3m \equiv 3n + 1 \mod 57$ or $3m \equiv 3n+2 \mod 57$. If $3m \equiv 3n+1 \mod 57$ for some $n \in \Z$, then $3(m-n) \equiv 1 \mod 7$, which implies $3$ is a unit. But this is impossible since $\gcd(3,57)=3\neq 1$. Now assume $3m \equiv 3n+2 \mod 57$. Then $3(m-n) \equiv 2 \mod 57$. Since $\gcd(2,57)=1$, we know there must be some integer $k$ satisfying $2k \equiv 1 \mod 57$. But then by transivitiy of the congruence relation, $3(m-n)k \equiv 1$, another contradiction.
+    \end{proof}
+
+\end{minipage}}
+
+
+\end{enumerate}
+
+
+\item Silverman 2.1
+
+    \begin{enumerate}[label=(\alph*)]
+        \item We showed that in any primitive Pythagorean triple $(a,b,c)$, either $a$ or $b$ is even. Use the same sort of argument to show that either $a$ or $b$ must be a multiple of $3$.
+
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+    \begin{lemma*}There exists no integer whose square is congruent to $2 \mod 3$.
+    \end{lemma*} 
+
+    \begin{proof}
+        Let $n \in \Z$. Then $n \equiv x \mod 3$ for exactly one $x \in \{0,1,2\}$. Suppose $n \equiv 0 \mod 3$. Then $n = 3k$ for some $k \in \Z$. So $n^2 = 9k^2= 3(3k^2)$. Thus $n^2 \equiv 0 \mod 3$.
+        Suppose $n \equiv 1 \mod 3$. Then $n = 3k +1$ for some $k \in \Z$. So $n^2 = (3k+1)^2 = 9k^2+6k+1 = 3(3k^2+2k)+1$. Hence, $n^2 \equiv 1 \mod 3$.
+        Suppose $n \equiv 2 \mod 3$. Then $n = 3k +2$ for some $k \in \Z$. So $n^2 = (3k+2)^2 = 9k^2+6k+4 = 3(3k^2+2k+1)+1$. Hence, $n^2 \equiv 1 \mod 2$.
+    \end{proof}
+
+    \begin{claim*}Let $(a,b,c)$ be a primitive Pythatgorean triple. Then either $a$ or $b$ is a multiple of $3$.
+    \end{claim*}
+
+    \begin{proof}Suppose otherwise that $3$ divides neither $a$ nor $b$. Then $a^2 \equiv b^2 \equiv 1 \mod 3$ since $x^2 \not\equiv 2 \mod 3$ for any $x \in \Z$ by the above lemma. So $a^2=3m+1$ and $b^2=3n+1$ for some $m,n \in \Z$. Since $\Z$ is a commutative ring, we have 
+        \[c^2 = 3m+1+3n+1=3m+3n+2=3(m+n)+2.\] 
+        But this implies $c^2 \equiv 2 \mod 3$, a contradiction.
+    \end{proof}
+\end{minipage}}
+
+    
+\item By examining the above list of primitive Pythagorean triples, make a guess about when $a$, $b$, or $c$ is a multiple of $5$. Try to show that your guess is correct.
+
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+
+    \begin{lemma*}The square of any integer is congruent to $0$, $1$, or $4 \mod 5$.
+    \end{lemma*}
+
+    \begin{proof}
+Let $n \in \Z$. Then $n \equiv x \mod 5$ for exactly one $x \in \set{0,\ldots,4}$. If $n \equiv 0 \mod 5$, then $n^2 = 0 \mod 5$. 
+If $n \equiv 0 \mod 5$, then $n = 5m$ for some $m \in Z$. So $n^2 = 5k$ with $k = 5m^2$.
+If $n \equiv 1 \mod 5$, then $n = 5m+1$ for some $m \in Z$. So $n^2 = 5k + 1$ with $k = 5m^2 + 2m$.
+If $n \equiv 2 \mod 5$, then $n = 5m+2$ for some $m \in \Z$. So $n^2 = 5k + 4$ with $k = 5m^2 + 4m$.
+If $n \equiv 3 \mod 5$, then $n = 5m+3$ for some $m \in \Z$. So $n^2 = 5k + 4$ with $k = 5m^2 + 6m + 1$.
+If $n \equiv 4 \mod 5$, then $n = 5m+4$ for some $m \in \Z$. So $n^2 = 5k + 1$ with $k = 5m^2 + 8m + 3$.
+    \end{proof}
+
+    \begin{claim*}Let $(a,b,c)$ be a Primitive Pythagorean Triple. Then exactly one of $a$, $b$ or $c$ is congruent to $0 \mod 5$.
+    \end{claim*}
+
+    \begin{proof}
+        Let $(a,b,c)$ be a primitive Pythagorean triple. Then $a$ and $b$ can not both be congruent to $0 \mod 5$, as then $c \equiv 0 \mod 5$ which contradicts primivity of $(a,b,c)$. Suppose neither $a$ nor $b$ is congruent $0 \mod 5$.
+If both $a^2$ and $b^2$ are congruent to $1 \mod 5$, then $c^2$, and thus $c$, is congruent to $0 \mod 5$, which contradicts the above lemma. Similarly, it cannot be that both $a^2$ and $b^2$ are congruent to $4 \mod 5$, otherwise $c^2 = 3 \mod 5$, another contradiction. So if neither $a$ nor $b$
+is congruent to $0 \mod 5$, then one of $a^2$ and $b^2$ must be congruent to $1 \mod 5$, and the other congruent to $4 \mod 5$.
+Thus $c^2 \equiv 0 \mod 5$ which implies $c \equiv 0 \mod 5$. Now suppose neither $b$ nor $c$ is congruent to $0 \mod 5$.
+We show $a \equiv 0 \mod 5$. Note that $a^2 = c^2 -b^2$. If $c^2 = 1 \mod 5$ and $b^2 \equiv 1 \mod 5$, then $a^2 = 0 \mod 5$, and thus
+$a \equiv 0 \mod 5$. If both $c^2$ and $b^2$ are congruent to $4 \mod 5$, then $a^2 \equiv 0 \mod 5$. If $c^4 \equiv 4 \mod 5$ and
+$b^2 \equiv 1 \mod 5$, then $a^2 = 3 \mod 5$, a contradiction.
+If $c^2 = 1 \mod 5$ and $b^2 \equiv 4 \mod 5$, then $a^2 = 2 \mod 5$ and thus $a \equiv 2 \mod 5$, which is impossible. Therefore if neither $b$ nor $c$ is congruent to $0 \mod 5$, then $a$ must be. The result follows.
+    \end{proof}
+\end{minipage}}
+
+
+    \end{enumerate}
+
+
+
+\item Silverman 2.5
+
+    In Chapter $1$ we saw that the $n^{\textnormal{th}}$ triangular $T_n$ is given by the formula
+    \[T_n = 1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}.\]
+    The first few triangular numbers are $1$, $3$, $6$, and $10$. In the list of the first few Pythagorean triples $(a,b,c)$, we find $(3,4,5)$, $(5,12,13)$, $(7,24,25)$, and $(9,40,41)$. Notice that in each case, the value of $b$ is four times a triangular number.
+
+
+\begin{enumerate}[label = (\alph*)]
+    \item Find a primitive Pythagorean triple $(a,b,c)$ with $b=4T_5$. Do the same for $b=4T_6$ and for $b=4T_7$.
+
+    
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+    By applying the result from part (b) of this exercise, we get the following as the required Primitive Pythagorean Triples:\\
+        $(a,4T_5,c)=(11,60,61)$\\
+        $(a,4T_6,c)=(13,84,85)$\\
+        $(a,4T_7,c)=(15,112,113)$
+\end{minipage}}
+    
+    \item Do you think that for every triangular number $T_n$, there is a primitive Pythagorean triple $(a,b,c)$ with $b=4T_n$? If you believe that this is true then prove it. Otherwise, find some triangular number for which it is not true.
+
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+    Yes.
+
+    \begin{claim*}
+        The triple $(a,b,c)=\left(2n+1,4T_n,2n^2+2n+1\right)$ yields a Primitive Pythagorean Triple for all $n \in \N_{>0}$.
+    \end{claim*}
+    
+    \begin{proof}
+    Let $T_n$ be the $nth$ triangular number, where $n \in \N_{>0}$. Then $4T_n=2n(n+1)$ since $T_n=\frac{n(n+1)}{2}$. Set $s = 2n+1$ and $t=1$. Then $s$ and $t$ are odd integers satisfying $s>t \geq 1$. Also, $s$ and $t$ must be relatively prime; otherwise, their common factor would divide both 
+    $n+1 = \frac{s+t}{2}$ and $n = \frac{s-t}{2}$, contradicting the fact that $\gcd(n,n+1)=1$. Now observe that 
+    $st=(2n+1)\cdot1 = 2n+1$, $4T_n=2n(n+1)=\frac{s^2-t^2}{2}$, and $(n+1)^2+1^2= \frac{s^2+t^2}{2}$. 
+    Therefore, by Theorem 1, $\left(2n+1,4T_n,2n^2+2n+1\right)$ is a Primitive Pythagorean Triple. 
+\end{proof}
+\end{minipage}}
+
+\end{enumerate}
+
+
+\item Silverman 3.2 
+    
+\begin{enumerate}[label = (\alph*)]
+    \item Use the lines through the point $(1,1)$ to describe all the points on the circle $x^2+y^2=2$ whose coordinates are rational numbers.
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+Let $\ell$ be the line passing through point $(1,1)$. Then the equation for $\ell$ is given by $y-1 = m(x-1)$ which implies
+$y= mx-m+1$. Now observe that
+    \begin{align*}
+        x^2+y^2&=2
+        \\  x^2+\left(mx-m+1 \right)^2 &= 2
+        \\ x^2+m^2x^2 +m^2+1 - 2m^2x-2m+2mx &=2
+        \\(m^2+1)x^2-2(m^2-m)x+(m^2-2m-1)&=0
+    \end{align*}
+    Then dividing $(m^2+1)x^2-2(m^2-m)x+(m^2-2m-1)$ by $x-1$, we obtain
+    \[(m^2+1)x -(m^2-2m-1)\]
+So
+    \[x = \frac{m^2-2m-1}{m^2+1}\]
+Thus
+       \[ y = m\left( \tfrac{m^2-2m-1}{m^2+1}\right) - m +1 = \tfrac{-m^2-2m+1}{m^2+1}\]
+    Hence $(x,y) = \left( (m^2+1)x -(m^2-2m-1),  \tfrac{-m^2-2m+1}{m^2+1}\right)$.
+\end{minipage}}
+
+        
+        \begin{comment}
+    \item What goes wrong if you try to apply the same procedure to find all the points on the circle $x^2+y^2=3$ with rational coordinates?
+        \end{comment}
+
+
+\end{enumerate}
+
+
+\item Silverman 5.1 
+
+Use the Euclidean algorithm to compute each of the following gcd's.
+
+
+\begin{enumerate}[label = (\alph*)]
+    \item $\gcd(12345,67890)$
+
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        \begin{align*}
+            \gcd(12345,67890) &= \gcd(12345, 67890 - 5(12345))
+            \\&= \gcd(12345, 6165)
+            \\&= \gcd(12345-2(6165), 6165)
+            \\&= \gcd(15,6165)
+            \\&= \gcd(15, 6165 - 411(15))
+            \\&= \gcd(15,0)
+            \\&= 15
+        \end{align*}
+\end{minipage}}
+
+    \item $\gcd(54321,9876)$
+
+        
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        \begin{align*}
+            \gcd(54321,9876) &= \gcd(54321 - 5(9875), 9876)
+            \\&=\gcd(4941,9876)
+            \\&=\gcd(4941,9875-1(4941))
+            \\&=\gcd(4941,4935)
+            \\&=\gcd(4941-1(4935),4935)
+            \\&=\gcd(6,4935)
+            \\&=\gcd(6,4935-822(6))
+            \\&=\gcd(6,3)
+            \\&=\gcd(6-2(3),3)
+            \\&=\gcd(0,3)
+            \\&= 3
+        \end{align*}
+\end{minipage}}
+
+\end{enumerate}
+
+\item Silverman 5.6 The proof should be very short!
+
+    Write a program to implement the $3n+1$ algorithm described in the previous exercise. The user will input $n$ and your program should return the length $L(n)$ and the previous terminating value $T(n)$ of the $3n+1$ algorithm. Use your program to create a table giving the length and terminating value for all starting values $1 \leq n \leq 100$.
+
+
+\begin{minipage}{\textwidth}
+    \begin{lstlisting}    
+def g(n):
+    """Compute Length of Termination and Terminating value"""
+    A, i = [], 0
+    while n not in A:
+        A, i = A + [n], i + 1
+        if n % 2 == 0:
+            n = n // 2
+        else:
+            n = (3 * n) + 1
+    return i, A[i-1]
+
+
+def f(k):
+    """Print table for Length of Termation and Terminating values"""
+    for n in range(1, k+1):
+        print(n, g(n))
+\end{lstlisting}
+
+
+\end{minipage}
+
+
+\section*{appendix}
+$3n+1$ algorithm output
+\begin{lstlisting}
+1 (3, 2)
+2 (3, 4)
+3 (8, 1)
+4 (3, 1)
+5 (6, 1)
+6 (9, 1)
+7 (17, 1)
+8 (4, 1)
+9 (20, 1)
+10 (7, 1)
+11 (15, 1)
+12 (10, 1)
+13 (10, 1)
+14 (18, 1)
+15 (18, 1)
+16 (5, 1)
+17 (13, 1)
+18 (21, 1)
+19 (21, 1)
+20 (8, 1)
+21 (8, 1)
+22 (16, 1)
+23 (16, 1)
+24 (11, 1)
+25 (24, 1)
+26 (11, 1)
+27 (112, 1)
+28 (19, 1)
+29 (19, 1)
+30 (19, 1)
+31 (107, 1)
+32 (6, 1)
+33 (27, 1)
+34 (14, 1)
+35 (14, 1)
+36 (22, 1)
+37 (22, 1)
+38 (22, 1)
+39 (35, 1)
+40 (9, 1)
+41 (110, 1)
+42 (9, 1)
+43 (30, 1)
+44 (17, 1)
+45 (17, 1)
+46 (17, 1)
+47 (105, 1)
+48 (12, 1)
+49 (25, 1)
+50 (25, 1)
+51 (25, 1)
+52 (12, 1)
+53 (12, 1)
+54 (113, 1)
+55 (113, 1)
+56 (20, 1)
+57 (33, 1)
+58 (20, 1)
+59 (33, 1)
+60 (20, 1)
+61 (20, 1)
+62 (108, 1)
+63 (108, 1)
+64 (7, 1)
+65 (28, 1)
+66 (28, 1)
+67 (28, 1)
+68 (15, 1)
+69 (15, 1)
+70 (15, 1)
+71 (103, 1)
+72 (23, 1)
+73 (116, 1)
+74 (23, 1)
+75 (15, 1)
+76 (23, 1)
+77 (23, 1)
+78 (36, 1)
+79 (36, 1)
+80 (10, 1)
+81 (23, 1)
+82 (111, 1)
+83 (111, 1)
+84 (10, 1)
+85 (10, 1)
+86 (31, 1)
+87 (31, 1)
+88 (18, 1)
+89 (31, 1)
+90 (18, 1)
+91 (93, 1)
+92 (18, 1)
+93 (18, 1)
+94 (106, 1)
+95 (106, 1)
+96 (13, 1)
+97 (119, 1)
+98 (26, 1)
+99 (26, 1)
+100 (26, 1)
+\end{lstlisting}
+
+\end{exercises}
+\end{document}

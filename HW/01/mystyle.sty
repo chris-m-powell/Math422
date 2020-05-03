@@ -1,0 +1,97 @@
+%PAGE SETUP
+\geometry{margin=1.5in} %MARGINS
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\textsc{Math 422: Introduction to Number Theory}}
+\chead{\small\textsc{}}
+\rhead{\small\textsc{spring 2019}}
+\renewcommand{\headrulewidth}{0.5pt}
+\lfoot{}
+\cfoot{\thepage \ of \pageref*{LastPage}}
+\rfoot{} 
+
+%TITLE PAGE SETUP
+\fancypagestyle{firststyle}
+{
+    \fancyhf{}
+    \lhead{\small\textsc{Math 422: Introduction to Number Theory}}
+    \chead{\small\textsc{}}
+    \rhead{\small\textsc{Spring 2019}}
+    \lfoot{}
+    \cfoot{\thepage \ of \pageref*{LastPage}}
+    \rfoot{}  
+}
+
+% \setcounter{section}{1}
+\newlist{exercises}{enumerate}{1}
+\setlist[exercises]{label={\arabic*.}}
+% \setlist[exercises]{label=\textbf{\thesection.\arabic*.}}
+
+
+%CUSTOM CODE BOX ENVIRONMENT
+\lstset
+{
+    language = python,
+    frame = tb, 
+    aboveskip = 3mm,
+    belowskip = 3mm,
+    backgroundcolor = \color{white},
+  	basicstyle = \color{black}\footnotesize\ttfamily,
+    commentstyle = \itshape,
+    morecomment = [s]{"""}{"""},
+    breaklines = true,
+    showstringspaces = false,
+    tabsize = 4
+}
+
+\theoremstyle{definition}
+\newtheorem*{claim*}{Claim}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{exercise}{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+
+% General
+\renewcommand{\emptyset}{\varnothing}
+\newcommand{\hra}{\hookrightarrow}
+\newcommand{\righthookarrow}{\hookrightarrow}
+\newcommand{\isom}{\cong}
+\newcommand{\too}{\longrightarrow}
+\newcommand{\isomto}{\overset{\sim}{\longrightarrow}}
+\newcommand{\nto}[1]{\overset{#1}{\longrightarrow}}
+\newcommand{\nsubset}{\not\subset}
+\renewcommand{\phi}{\varphi}
+\newcommand{\To}{\Rightarrow}
+\newcommand{\eps}{\varepsilon}
+\renewcommand{\bar}[1]{\overline{#1}}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\DeclareMathOperator{\car}{char}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Gl}{GL}
+\DeclareMathOperator{\Sl}{SL}
+\providecommand{\abs}[1]{\left \lvert#1 \right \rvert}
+
+% Number theory
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\ok}{\mathscr{O}_K}
+\newcommand{\lat}{\mathcal{L}}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Nm}{Nm}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\cvol}{covol}
+\newcommand{\norm}[1]{\|#1\|}
+%\renewcommand{\mod}[1]{\textit{\textnormal{ (mod #1)}}} 

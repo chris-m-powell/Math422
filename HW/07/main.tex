@@ -1,0 +1,234 @@
+\documentclass[10pt,twoside]{article}
+
+% \usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{array} 
+\usepackage{url} 
+\usepackage{float}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{mystyle}
+\usepackage{lastpage}
+\usepackage{fontspec}
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+
+\raggedbottom
+\setmainfont{URW Palladio L}
+% \newfontfamily\headingfont[Path = /usr/share/fonts/opentype/bebas-neue/]{BebasNeue Regular.otf}
+% \setmainfont[Path = /usr/share/fonts/opentype/tex-gyre-pagella/]{texgyrepagella-regular.otf}
+\begin{document}
+\title{\vspace{-2em}Homework 7\vspace{-1em}}
+\author{Chris Powell}
+\date{}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{enumerate}[itemsep=2em,label=\Alph*.]
+    \item Write a program that takes as input a positive integer $n$ and computes $\varphi(n)$. You may use brute force.
+        \begin{lstlisting}
+def gcd(a, b):
+    """Return gcd(a,b)"""
+    while b:
+        a, b = b, a % b
+    return a
+       
+def totient(n):
+    """Given positive integer n, return totient(n)"""
+    t = 0
+    for i in range(1, n):
+        if gcd(i, n) == 1:
+            t += 1
+    return t
+        \end{lstlisting}
+    \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        \begin{proof}
+            Recall that termination and correctness of \texttt{gcd} has already been shown. Since \texttt{totient} iterates using \texttt{for}, it is clear that the algorithm must terminate. It remains to show that \texttt{totient} gives the correct output. Let $t_k$ be the value of \texttt{t} after $k$ iterations. If $\gcd(i,n)=1$, then $t_{k+1}=t_k +1$; otherwise, $t_{k+1}=t_{k}$. So 
+            \[t_n= \sum_{\substack{1\leq i \leq n \\ gcd(i,n)=1}}i. \]       
+            But this is the totient $\varphi(n)$, by definition.
+            Therefore, since the algorithm returns $t_n$, it gives the correct output.
+        \end{proof}
+    \end{minipage}}
+
+    \item Compute
+        \begin{enumerate}[label=\arabic*.]
+            \item $\varphi(81)$
+   
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+            Observe that 
+                \begin{align*}
+                    \varphi(81)&=\varphi\left(3^4\right)
+                    \\&=3^4-3^3 \justify{Theorem 11.1.a}
+                    \\&=81-27
+                    \\&=54.
+                \end{align*}
+    \end{minipage}} 
+
+            \item $\varphi(20736)$
+    
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                Observe that
+                \begin{align*}
+                    \varphi(20736)&= \varphi \left(2^8 \cdot 3^4\right)
+                    \\&=\varphi \left(2^8 \right) \varphi \left(3^4 \right) \justify{Theorem 11.1.b}
+                    \\&=\left(2^8-2^7 \right) \left(3^4-3^3 \right) \justify{Theorem 11.1.a}
+                    \\&=(256-128)(81-27)
+                    \\&=(128)(54)
+                    \\&=6912.
+                \end{align*}
+    \end{minipage}}
+
+            \item $\varphi(10000000000)$
+    
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                Observe that
+                \begin{align*}
+                    \varphi(1000000000000)&=\varphi\left(10^{12}\right)
+                    \\&=\varphi\left( (2\cdot5)^{12} \right)
+                    \\&=(2\cdot 5)^{12} \cdot \left(1- \frac{1}{2}\right)\left(1- \frac{1}{5}\right)
+                    \\&=(2\cdot 5)^{12} \cdot \frac{1}{2}\cdot \frac{4}{5}
+                    \\&=(2\cdot 5)^{12} \cdot \frac{4}{10}
+                    \\&=(2\cdot 5)^{11} \cdot 4
+                    \\&=10^{11} \cdot 4
+                    \\&=40^{11}.
+                \end{align*}
+    \end{minipage}}
+        \end{enumerate}
+    \item 
+        \begin{enumerate}[label=\arabic*.]
+            \item Find all $n$ for which $\varphi(n)=4$.
+      
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                Observe that
+                    \begin{align*}
+                    \varphi(n)&=\varphi\left( \prod_{i=1}^r p_i^{e_i}\right)
+                    \\&=\prod_{i=1}^r \varphi\left( p_i^{e_i}\right)
+                    \\&=\prod_{i=1}^r \left( p_i^{e_i}-p_i^{e_i-1}\right)
+                    \\&=\prod_{i=1}^r \left( (p-1)p_i^{e_i-1}\right)
+                \end{align*}
+                So $(p-1) \mid \varphi(n)=4$. But 
+                \[\set{p \in \N \mid p \textnormal{ is prime}, p-1 \textnormal{ divides } 4}=\set{2,3,5}.\]
+                We consider the pairs of the powers of such of $p$:
+                \begin{align*}
+                    \varphi(10)&=\varphi(2^1 \cdot 5^1)=\varphi(2^1)\varphi(5^1)=(2^1-2^0)(5^1-5^0)=1\cdot 4 =4
+                    \\ \varphi(12)&=\varphi(2^2 \cdot 3^1)=\varphi(2^2)\varphi(3^1)=(2^2-2^1)\cdot (3^1-3^0)  =2 \cdot 2 = 4
+                    \\ \varphi(5)&=\varphi(2^0 \cdot 5^1)=5^1-5^0= 4.
+                    \\ \varphi(8)&=\varphi(2^3 \cdot 3^0)=\varphi(2^3)\varphi(3^0)=(2^3-2^2)=8-4= 4.
+                \end{align*}
+                    We do not need to consider $3^e$ for $e \geq 2$ since $\varphi(3^2) = 3^2-3^1= 6 > 4$.
+                    By similar reasoning, we do not need to consider $2^e$ for $e\geq 4$, nor $5^e$ for $e \geq 2$.
+                Hence $\set{n \in \N \mid \varphi(n)=4}=\set{5,8,10,12}$.
+                \end{minipage}}
+
+            \item Find all $n$ for which $\varphi(n)=6$.
+                
+                \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+                Observe that
+                \begin{align*}
+                    \varphi(n)&=\varphi\left( \prod_{i=1}^r p_i^{e_i}\right)
+                    \\&=\prod_{i=1}^r \varphi\left( p_i^{e_i}\right)
+                    \\&=\prod_{i=1}^r \left( p_i^{e_i}-p_i^{e_i-1}\right)
+                    \\&=\prod_{i=1}^r \left( (p-1)p_i^{e_i-1}\right)
+                \end{align*}
+                So $(p-1) \mid \varphi(n)=6$. But 
+                \[\set{p \in \N \mid p \textnormal{ is prime}, p-1 \textnormal{ divides } 6}=\set{2,3,7}.\]
+                We consider the pairs of the powers of such of $p$:
+                \begin{align*}
+                    \varphi(7)&=\varphi(2^0 \cdot 7^1)=7^1-7^0=6
+                    \\ \varphi(9)&=\varphi(2^0 \cdot 3^2)=3^2-3^1=9-3=6
+                    \\ \varphi(14)&=\varphi(2^1 \cdot 7^1)=\varphi(2^1)\varphi(7^1)=(2^1-2^0)(7^1-7^0)=1\cdot 6 = 6
+                    \\ \varphi(18)&=\varphi(2^1 \cdot 3^2)=\varphi(2^1)\varphi(3^2)=(2^1-2^0)(3^2-3^1)=1\cdot 6 = 6
+                \end{align*}
+                We do not need to consider $3^e$ for $e \geq 3$, nor $7^e$ for $e \geq 2$ as their totient will be greater than $6$.
+                Hence $\set{n \in \N \mid \varphi(n)=6}=\set{7,9,14,18}$.
+                \end{minipage}}
+
+        \end{enumerate}
+            \item Silverman 11.5 For each part, find an $x$ that solves the given simultaneous congruences.
+        \begin{enumerate}[label=(\alph*)]
+            \item $x \equiv 3 \mod{7}$ and $x \equiv 5 \mod{9}$
+            
+    \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        Since $\gcd(7,9)=1$, the Chinese Remainder Theorem implies there is a unique $x \in \Z / (7*9)\Z$
+        satisyfing the given system of congruences. To find $x$, we apply the \texttt{crt} algorithm developed in exercise E. We obtain $x=\texttt{crt(3,5,7,9)}=59$.
+    \end{minipage}}
+                
+    \item $x \equiv 3 \mod{37}$ and $x \equiv 1 \mod{87}$
+
+    \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+        Since $\gcd(37,87)=1$, the Chinese Remainder Theorem implies there is a unique $x \in \Z / (37*87)\Z$
+        satisyfing the given system of congruences. To find $x$, we apply the \texttt{crt} algorithm developed in the following exercise E. We obtain $x=\texttt{crt(3,1,37,87)}=262$.
+    \end{minipage}}
+
+    \item $x \equiv 5 \mod{7}$ and $x \equiv 2 \mod{12}$ and $x \equiv 8 \mod{13}$
+        \end{enumerate}
+
+        
+    \item Silverman 11.8. You may not use brute force. Write a program that takes as input four integers $(b,c,m,n)$ with $\gcd(m,n)=1$ and computes an integer $x$ with $0 \leq x \leq mn$ satisfying
+        \[ x \equiv b \mod{m} \quad \textnormal{and} \quad x \equiv c \mod{n}.\]
+    
+\begin{lstlisting}    
+def xgcd(a, b):
+    """Return (g, x, y) such that a*x + b*y = g = gcd(a, b)"""
+    if b == 0:
+        return a, 1, 0
+    x, g, v, w = 1, a, 0, b
+    while w != 0:
+        x, g, v, w = v, w, x - (g // w) * v, g % w
+    x = x % (b // g)
+    return g, x, (g - (a * x)) // b
+
+
+def crt(a, b, m, n):
+    """Given integers a,b,m,n, with gcd(m,n)=1, return unique x cong a,b (mod m,n)"""
+    (g, r, s) = xgcd(m, n)
+    return ((a * s * n) + (b * r * m)) % (m * n)
+\end{lstlisting}
+    
+    \framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+   \begin{proof}
+       Recall that the termination and correctness of \texttt{xgcd} has already been shown. It immediately follows that \texttt{crt} must terminate. We show that \texttt{crt} gives the correct output. By the correctness of $\texttt{xgcd}$, $r$ and $s$ are such that
+       \[rm+sn=gcd(m,n)=1.\]
+       This implies $rm \equiv 1\mod{n}$ and $sn \equiv 1 \mod{m}$. So $a(rm) \equiv a \mod{m}$ and $b(rm) \equiv b \mod{n}$. The algorithm returns $a(rn)+b(sm) \mod{mn}$. But
+       \begin{align*}
+           a(sn)+b(rm) \equiv a(sn) \equiv a(1) \equiv a \mod{m}
+       \end{align*}
+       and
+       \begin{align*}
+           a(sn)+b(rm) \equiv b(rm) \equiv b(1) \equiv b \mod{n}.
+       \end{align*}
+       We've already shown that when $\gcd(m,n)=1$, the map $[x]_{mn} \mapsto \left([x]_m,[x]_n\right)$ is a bijection $\Z/mn \to \Z/m \times \Z/n$. Hence, the algorithm returns the correct output.
+   \end{proof}
+    \end{minipage}}
+
+    \item Silverman 11.9 Let $m_1,m_2,m_3$ be positive integers such that each pair is relatively prime. That is,
+        \[\gcd(m_1,m_2)=1 \quad \textnormal{and} \quad \gcd(m_1,m_3)=1 \quad \textnormal{and} \quad \gcd(m_2,m_3)=1.\]
+  Let $a_1,a_2,a_3$ be any three integers. Show that there is exactly one integer $x$ in the interval $0 \leq x < m_1m_2m_3$ that simultaneously solves the three congruences
+        \[x \equiv a_1 \mod{m_1}, \quad x \equiv a_2 \mod{m_2}, \quad x \equiv a_3 \mod{m_3}.\]
+Can you figure out how to generalize this problem to deal with lots of congruences
+        \[x \equiv a_1 \mod{m_1}, \quad x \equiv a_2 \mod{m_2}, \ldots, \quad x \equiv a_r \mod{m_r}?\]
+   In particular, what conditions do the moduli $m_1,m_2, \ldots,m_r$ need to satisfy? 
+    \item Show that if $\gcd(m,n)>1$, then
+        \begin{align*}
+            \psi: \Z / mn &\to \Z /m \times \Z /n
+            \\ [x] &\mapsto ([x],[x])
+        \end{align*}
+is never bijective.        
+
+\framebox{\begin{minipage}{\dimexpr\linewidth-2\fboxrule-2\fboxsep}
+\begin{proof}
+    Assume $g=\gcd(m,n)>1$. Then $g \mid mn$ since $g \mid m,n$. So $mn=gd$ for some $d \in \Z$. Thus $d=\frac{m}{g}n= m\frac{n}{g}$. We know $\frac{m}{g},\frac{n}{g} \in \Z$ since $g \mid m,n$. Therefore $m,n \mid d$. So $d \equiv 0 \mod{m}$ and $d \equiv 0 \mod{n}$. So $\psi \left([d]_{mn}\right)=\left([0]_m,[0]_n\right)$. But $1< d < mn$ since $\gcd(m,n)>1$. So $[d]_{mn} \neq [0]_{mn}$. Hence, $\psi$ is not injective. 
+\end{proof}
+\end{minipage}}
+
+\end{enumerate}
+
+\end{document}
